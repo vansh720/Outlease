@@ -1,11 +1,14 @@
-import React from 'react'
+import React from "react";
+import Hero_section from "../components/Hero_section";
+import Featured_section from "../components/Featured_section";
 
 const Home = () => {
   return (
-    <div>
-      <h1>Home page</h1>
+    <div className="bg-[#F8FAFC]">
+      <Hero_section/>
+      <Featured_section/>
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

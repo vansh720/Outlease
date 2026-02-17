@@ -10,7 +10,7 @@ const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <nav className="w-full bg-[#0F172A] text-white shadow-md">
+    <nav className="w-full bg-[#0F172A] text-white shadow-md py-2">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-10 lg:px-16">
         <div className="flex items-center justify-between h-16">
           <img
