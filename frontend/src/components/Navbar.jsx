@@ -30,7 +30,7 @@ const Navbar = () => {
             </NavLink>
 
             <NavLink
-              to="/dashboard"
+              to="/owner"
               className="hover:text-[#14B8A6] transition"
             >
               Dashboard
