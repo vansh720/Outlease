@@ -15,7 +15,7 @@ const Sidebar = () => {
     <div className='relative min-h-screen md:flex flex-col items-center pt-8 max-w-13 md:max-w-60 w-full border-r border-borderColor text-sm'>
         <div className='group relative'>
             <label htmlFor="image">
-            <img src={image? URL.createObjectURL(image) : user?.image || "https://png.pngtree.com/png-vector/20190321/ourmid/pngtree-vector-users-icon-png-image_856952.jpg"} alt="" />
+            <img src={image? URL.createObjectURL(image) : user?.image || "https://png.pngtree.com/png-vector/20190321/ourmid/pngtree-vector-users-icon-png-image_856952.jpg"} alt="" className='h-9 md:h-14 w-9 md:w-14 rounded-full' />
             <input type="file" id='image' accept='image/*' hidden onChange={e=> setImage(e.target.files[0])}/>
             <div className='absolute hidden top-0 right-0 left-0 bottom-0
             bg-black/10 rounded-full group-hover:flex items-center justify-center cursor-pointer'>
@@ -24,7 +24,7 @@ const Sidebar = () => {
             </label>
         </div>
         {image && (
-            <button>Save <img src={assets.check_icon} width={13} className='absolute top-0 right-0 flex p-2 gap-1 bg-gray/10 text-white cursor-pointer' alt="" onClick={updateImage}/></button>
+            <button className='absolute top-0 right-0 flex p-2 gap-1 bg-gray/10 text-black cursor-pointer'>Save <img src={assets.check_icon} width={13}  alt="" onClick={updateImage}/></button>
         )}
         <p className='mt-2 text-base max-md:hidden'>{user?.name}</p>
 
