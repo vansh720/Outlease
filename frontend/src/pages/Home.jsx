@@ -23,7 +23,7 @@ const FEATURED_ITEMS = [
     rating: 4.8,
     reviews: 24,
     location: "Downtown Area, 2km away",
-    image: "https://images.unsplash.com/photo-1584568694244-14fbdf83bd30?auto=format&fit=crop&q=80&w=600",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_Th8JRCbSiO10pJUT5hevz0_0-GhIihCK2w&s",
     owner: "Sarah M."
   },
   {
@@ -216,7 +216,7 @@ const Hero = () => {
                 <div className="absolute -top-4 -right-4 bg-yellow-400 text-yellow-900 text-xs font-bold px-3 py-1.5 rounded-full shadow-lg transform rotate-12 flex items-center gap-1 border-2 border-white">
                   <Star className="w-3 h-3 fill-current" /> Popular
                 </div>
-                <img src="https://images.unsplash.com/photo-1584568694244-14fbdf83bd30?auto=format&fit=crop&q=80&w=600" alt="Fridge" className="w-full h-48 object-cover rounded-2xl mb-4 shadow-inner" />
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_Th8JRCbSiO10pJUT5hevz0_0-GhIihCK2w&s" alt="Fridge" className="w-full h-48 object-cover rounded-2xl mb-4 shadow-inner" />
                 
                 <div className="flex justify-between items-start mb-2">
                   <div>
