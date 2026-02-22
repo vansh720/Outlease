@@ -17,7 +17,7 @@ const Navbar = () => {
             <img 
               src={assets.Logo} 
               alt="Outlease Logo" 
-              className="h-10 w-auto object-contain"
+              className="h-13 w-auto object-contain"
               onClick={()=>navigate("/")}
             />
             <h1 className='font-bold text-xl text-teal-500 font-sans' onClick={()=>navigate("/")}>Outlease</h1>
