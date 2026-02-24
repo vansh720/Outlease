@@ -57,7 +57,7 @@ const Support = () => {
       />
 
       <div className="relative z-10 max-w-6xl mx-auto px-6 py-12 lg:py-24">
-        // branding and header
+      
         <div className="flex flex-col items-center text-center mb-16">
           <div className="flex items-center gap-2 mb-6">
             <div className="w-8 h-8 bg-[#149991] rounded-lg flex items-center justify-center transform rotate-3 shadow-sm">
@@ -73,7 +73,7 @@ const Support = () => {
           </p>
         </div>
 
-    
+        
         <div className="grid md:grid-cols-3 gap-8 mb-16">
           {[
             { title: "Renting Items", icon: "📦", desc: "Learn how to browse, book, and collect items safely." },
@@ -88,7 +88,7 @@ const Support = () => {
           ))}
         </div>
 
-        /* Contact Form Section */
+        
         <div className="bg-[#0c2423] rounded-[3rem] p-8 lg:p-16 text-white grid lg:grid-cols-2 gap-12 items-center">
           <div>
             <h2 className="text-4xl font-black mb-6">Still need help? <br /><span className="text-[#149991]">Drop us a message.</span></h2>
