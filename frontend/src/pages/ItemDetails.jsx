@@ -1,7 +1,7 @@
 import React from 'react';
-import { ArrowLeft, Star, MapPin, CheckCircle, ShieldCheck } from 'lucide-react';
+import { ArrowLeft, Star, MapPin, CheckCircle, ShieldCheck,MessageSquare} from 'lucide-react';
 
-const ItemDetails = ({ item, onBack }) => {
+const ItemDetails = ({ item, onBack, onChat }) => {
   return (
     <div className="bg-gray-50 min-h-screen py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -46,14 +46,23 @@ const ItemDetails = ({ item, onBack }) => {
               </p>
             </div>
 
-            <div className="bg-slate-50 p-6 rounded-2xl border border-slate-100 flex items-start gap-4">
-               <div className="w-12 h-12 bg-teal-100 rounded-full flex items-center justify-center text-teal-700 font-bold text-xl shrink-0">
-                 {item.owner.charAt(0)}
+            <div className="bg-slate-50 p-6 rounded-2xl border border-slate-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+               <div className="flex items-start gap-4">
+                 <div className="w-12 h-12 bg-teal-100 rounded-full flex items-center justify-center text-teal-700 font-bold text-xl shrink-0">
+                   {item.owner.charAt(0)}
+                 </div>
+                 <div>
+                   <h3 className="font-bold text-gray-900">Owned by {item.owner}</h3>
+                   <p className="text-sm text-gray-500 mt-1">Usually responds within an hour. 100% rental completion rate.</p>
+                 </div>
                </div>
-               <div>
-                 <h3 className="font-bold text-gray-900">Owned by {item.owner}</h3>
-                 <p className="text-sm text-gray-500 mt-1">Usually responds within an hour. 100% rental completion rate on Outlease.</p>
-               </div>
+               
+               <button 
+                 onClick={onChat}
+                 className="w-full sm:w-auto bg-white border-2 border-teal-100 text-teal-700 px-6 py-2.5 rounded-xl font-bold text-sm hover:bg-teal-50 transition-colors flex items-center justify-center gap-2 shadow-sm whitespace-nowrap"
+               >
+                 <MessageSquare className="w-4 h-4" /> Message {item.owner.split(' ')[0]}
+               </button>
             </div>
           </div>
 

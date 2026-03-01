@@ -7,6 +7,7 @@ import { assets } from '../assets/assets';
 import { useNavigate } from 'react-router-dom';
 import EarnBanner from '../components/EarnBanner';
 import ItemDetails from './ItemDetails';
+import Chat from './Chat';
 
 // --- MOCK DATA ---
 const CATEGORIES = [
@@ -371,6 +372,7 @@ const HowItWorks = () => {
 export default function App() {
   const [activeCategory, setActiveCategory] = useState("All Items");
   const [selectedItem, setSelectedItem] = useState(null);
+   const [chatOwner, setChatOwner] = useState(null);
   const Navigate= useNavigate();
   const filteredItems = activeCategory === "All Items" 
     ? FEATURED_ITEMS 
@@ -379,12 +381,24 @@ export default function App() {
   return (
     <div className="min-h-screen bg-white font-sans text-gray-900 selection:bg-teal-100 selection:text-teal-900">
       <main>
-        {selectedItem ? (
+        {chatOwner ? (
+          /* Render the Chat View */
+          <Chat 
+            item={selectedItem} 
+            owner={chatOwner} 
+            onBack={() => setChatOwner(null)} 
+          />
+        ) : selectedItem ? (
           /* Render the Item Details view if an item is selected */
-          <ItemDetails item={selectedItem} onBack={() => setSelectedItem(null)} />
+          <ItemDetails 
+            item={selectedItem} 
+            onBack={() => setSelectedItem(null)} 
+            onChat={() => setChatOwner(selectedItem.owner)}
+          />
         ) : (
+          /* Render the Main Marketplace view if no item is selected */
           <>
-        <Hero/>
+            <Hero />
         {/* Marketplace Section */}
         <section className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
