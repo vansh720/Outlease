@@ -55,7 +55,7 @@ const Login = () => {
             </div>
             <input
               type="password"
-              placeholder="Enter a "
+              placeholder="Enter a Password"
               className="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:ring-4 focus:ring-[#009688]/10 focus:border-[#009688] outline-none transition-all duration-200"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
