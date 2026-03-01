@@ -6,6 +6,6 @@ import upload from '../middleware/multer.js'
 const ownerRouter = express.Router()
 
 ownerRouter.post('/change-role',protect , changeRoleToOwner)
-ownerRouter.post('/add-item', upload.single("image") , addItem)
+ownerRouter.post('/add-item', upload.single("image") ,protect, addItem)
 
 export default ownerRouter
