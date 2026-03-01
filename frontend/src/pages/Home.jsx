@@ -6,6 +6,7 @@ import {
 import { assets } from '../assets/assets';
 import { useNavigate } from 'react-router-dom';
 import EarnBanner from '../components/EarnBanner';
+import ItemDetails from './ItemDetails';
 
 // --- MOCK DATA ---
 const CATEGORIES = [
@@ -35,7 +36,7 @@ const FEATURED_ITEMS = [
     rating: 4.9,
     reviews: 18,
     location: "Westside, 5km away",
-    image: "https://images.unsplash.com/photo-1620288627223-53302f4e8c74?auto=format&fit=crop&q=80&w=600", // Generic AC vibe
+    image: "https://static.vecteezy.com/system/resources/thumbnails/049/858/488/small/dive-into-the-remarkable-efficiency-of-a-contemporary-hvac-system-which-guarantees-optimal-heating-and-cooling-performance-in-residential-spaces-enhancing-comfort-and-energy-savings-photo.jpg",
     owner: "Rahul K."
   },
   {
@@ -264,8 +265,8 @@ const Hero = () => {
   );
 };
 
-const ItemCard = ({ item }) => (
-  <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-xl transition-all duration-300 group cursor-pointer flex flex-col h-full">
+const ItemCard = ({ item, onClick }) => (
+  <div onClick={() => onClick(item)} className="bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-xl transition-all duration-300 group cursor-pointer flex flex-col h-full">
     <div className="relative h-48 overflow-hidden">
       <img 
         src={item.image} 
@@ -301,7 +302,13 @@ const ItemCard = ({ item }) => (
           <span className="text-xl font-extrabold text-teal-600">₹{item.price}</span>
           <span className="text-gray-500 text-sm"> / {item.period}</span>
         </div>
-        <button className="bg-slate-900 text-white px-4 py-2 rounded-lg font-medium hover:bg-slate-800 transition-colors">
+        <button 
+          onClick={(e) => { 
+            e.stopPropagation(); 
+            onClick(item); 
+          }}
+          className="bg-slate-900 text-white px-4 py-2 rounded-lg font-medium hover:bg-slate-800 transition-colors"
+        >
           Rent
         </button>
       </div>
@@ -363,11 +370,20 @@ const HowItWorks = () => {
 
 export default function App() {
   const [activeCategory, setActiveCategory] = useState("All Items");
+  const [selectedItem, setSelectedItem] = useState(null);
   const Navigate= useNavigate();
+  const filteredItems = activeCategory === "All Items" 
+    ? FEATURED_ITEMS 
+    : FEATURED_ITEMS.filter(item => item.category === activeCategory);
 
   return (
     <div className="min-h-screen bg-white font-sans text-gray-900 selection:bg-teal-100 selection:text-teal-900">
       <main>
+        {selectedItem ? (
+          /* Render the Item Details view if an item is selected */
+          <ItemDetails item={selectedItem} onBack={() => setSelectedItem(null)} />
+        ) : (
+          <>
         <Hero/>
         {/* Marketplace Section */}
         <section className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -399,14 +415,20 @@ export default function App() {
           </div>
 
           {/* Items Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {FEATURED_ITEMS.map((item) => (
-              <ItemCard key={item.id} item={item} />
-            ))}
-          </div>
+          {filteredItems.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+              {filteredItems.map((item) => (
+                <ItemCard key={item.id} item={item} onClick={setSelectedItem}/>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-12 bg-gray-50 rounded-2xl border border-dashed border-gray-200">
+              <p className="text-gray-500 font-medium">No items found in this category right now.</p>
+            </div>
+          )}
           
           <div className="mt-12 text-center">
-            <button className="bg-white border-2 border-gray-200 text-gray-800 px-8 py-3 rounded-xl font-bold hover:border-gray-300 hover:bg-gray-50 transition-colors" onClick={()=>Navigate("/rent-items")}>
+            <button className="bg-white border-2 border-gray-200 text-gray-800 px-8 py-3 rounded-xl font-bold hover:border-gray-300 hover:bg-gray-50 transition-colors">
               Load More Items
             </button>
           </div>
@@ -414,6 +436,8 @@ export default function App() {
 
         <HowItWorks />
         <EarnBanner />
+        </>
+        )}
       </main>
     </div>
   );
