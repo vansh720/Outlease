@@ -376,7 +376,7 @@ export default function App() {
               <h2 className="text-3xl font-bold text-gray-900 mb-2">Available near you</h2>
               <p className="text-gray-600">Discover appliances, electronics, and more in your neighborhood.</p>
             </div>
-            <button className="text-teal-600 font-semibold flex items-center gap-1 hover:text-teal-700 transition-colors">
+            <button className="text-teal-600 font-semibold flex items-center gap-1 hover:text-teal-700 transition-colors" onClick={()=>Navigate("/map")}>
               View Map <MapPin className="w-4 h-4" />
             </button>
           </div>
