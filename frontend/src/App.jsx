@@ -15,6 +15,7 @@ import ManageItems from './pages/owner/ManageItems'
 import MyListings from './pages/owner/MyListings'
 import Cart from './pages/Cart'
 import Footer from './components/Footer'
+import RentalMap from './components/RentalMap'
 
 const App = () => {
   const [showLogin,setShowLogin]=useState(false)
@@ -31,6 +32,7 @@ const App = () => {
         <Route path='/chat/:id' element={<Chat/>}/>
         <Route path='/profile' element={<Profile/>}/>
         <Route path='support' element={<Support/>}/>
+        <Route path='map' element={<RentalMap/>}/>
         <Route path='/owner' element={<Layout/>}>
         <Route index element={<Dashboard/>}/>
         <Route path='add-items' element={<AddItem/>}/>

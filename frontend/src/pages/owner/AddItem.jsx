@@ -10,11 +10,8 @@ const AddItem = () => {
     brand:"",
     model:"",
     year:0,
-    pricePerDay:0,
+    pricePerMonth:0,
     category:"",
-    transmission:"",
-    fuel_type:"",
-    seating_capacity:0,
     location:"",
     description:"",
   })
@@ -44,7 +41,7 @@ const AddItem = () => {
 
            <div className='flex flex-col w-full'>
             <label>Model</label>
-            <input type="text" placeholder='e.g. Automatic,semi...' required className='px-3 py-2 mt-1 border border-borderColor rounded-md outline-none' value={item.model} onChange={e=>setItem({...item,
+            <input type="text" placeholder='e.g. X2,M3,AD7' required className='px-3 py-2 mt-1 border border-borderColor rounded-md outline-none' value={item.model} onChange={e=>setItem({...item,
               model:e.target.value})}/>
           </div>
         </div>
@@ -58,9 +55,9 @@ const AddItem = () => {
           </div>
 
            <div className='flex flex-col w-full'>
-            <label>Daily Price({currency})</label>
-            <input type="number" placeholder='100' required className='px-3 py-2 mt-1 border border-borderColor rounded-md outline-none' value={item.pricePerDay} onChange={e=>setItem({...item,
-              pricePerDay:e.target.value})}/>
+            <label>Monthly Price({currency})</label>
+            <input type="number" placeholder='100' required className='px-3 py-2 mt-1 border border-borderColor rounded-md outline-none' value={item.pricePerMonth} onChange={e=>setItem({...item,
+              pricePerMonth:e.target.value})}/>
           </div>
 
           <div className='flex flex-col w-full'>
@@ -71,33 +68,6 @@ const AddItem = () => {
               <option value="furniture">Furniture</option>
               <option value="cooking appliances">Cooking appliances</option>
             </select>
-          </div>
-        </div>
-
-        {/* ......................... */}
-        <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6'>
-          <div className='flex flex-col w-full'>
-            <label>Transmission</label>
-            <select onChange={e=>setItem({...item,transmission:e.target.value})} value={item.transmission} className='px-3 py-2 mt-1 border border-borderColor rounded-md outline-none'>
-              <option value="">Select a transmission</option>
-              <option value="Automatic">Automatic</option>
-              <option value="Manual">Manual</option>
-              <option value="Semi-Automatic">Semi-Automatic</option>
-            </select>
-          </div>
-          <div className='flex flex-col w-full'>
-            <label>Fuel Type</label>
-            <select onChange={e=>setItem({...item,fuel_type:e.target.value})} value={item.fuel_type} className='px-3 py-2 mt-1 border border-borderColor rounded-md outline-none'>
-              <option value="">Select fuel type</option>
-              <option value="Gas">Gas</option>
-              <option value="Diesel">Diesel</option>
-              <option value="Electric">Electric</option>
-            </select>
-          </div>
-          <div className='flex flex-col w-full'>
-            <label>Capacity</label>
-            <input type="number" placeholder='4' required className='px-3 py-2 mt-1 border border-borderColor rounded-md outline-none' value={item.seating_capacity} onChange={e=>setItem({...item,
-              seating_capacity:e.target.value})}/>
           </div>
         </div>
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Menu, X, Search, PlusCircle, ShoppingBag, RefreshCcw } from 'lucide-react';
+import { Menu, X, Search, PlusCircle, ShoppingBag, RefreshCcw, Contact } from 'lucide-react';
 import { useState } from 'react';
 import { assets } from '../assets/assets';
 import { useNavigate } from 'react-router-dom';
@@ -43,6 +43,10 @@ const Navbar = () => {
             <button className="flex items-center gap-2 bg-teal-50 text-teal-700 px-4 py-2 rounded-full font-semibold hover:bg-teal-100 transition-colors" onClick={()=> navigate("/owner/add-items")}>
               <PlusCircle className="w-5 h-5" />
               List an Item
+            </button>
+             <button className="flex items-center gap-2 bg-teal-50 text-teal-700 px-4 py-2 rounded-full font-semibold hover:bg-teal-100 transition-colors" onClick={()=> navigate("/support")}>
+              <Contact className="w-5 h-5" />
+              Support
             </button>
             <button className="text-gray-600 hover:text-teal-600 relative" onClick={()=>navigate("/cart")}>
               <ShoppingBag className="w-6 h-6" />
