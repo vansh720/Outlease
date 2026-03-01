@@ -9,11 +9,14 @@ const AddItemSchema = new mongoose.Schema({
     year:{type:Number,required:true},
     category:{type:String,required:true},
     pricePerMonth:{type:Number,required:true},
-    location:{type:String,required:true},
+    location: {
+    type: { type: String, enum: ['Point'], required: true },
+    coordinates: { type: [Number], required: true } 
+  },
     description:{type:String,required:true},
     isAvailable:{type:Boolean,default:true}
 },{timestamps:true})
 
-const Items=mongoose.model('Item',AddItemSchema)
+const Items=mongoose.model('Items',AddItemSchema)
 
 export default Items;

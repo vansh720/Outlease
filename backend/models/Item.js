@@ -5,7 +5,7 @@ const itemSchema = new mongoose.Schema({
   lenderName: { type: String, required: true },
   price: { type: Number, required: true },
   
-  location: {
+  locations: {
     type: { type: String, enum: ['Point'], required: true },
     coordinates: { type: [Number], required: true } 
   }
