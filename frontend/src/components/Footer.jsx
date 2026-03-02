@@ -7,15 +7,7 @@ const Footer = () => (
       <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
         <div className="col-span-1 md:col-span-1">
           <div className="flex items-center gap-2 mb-4">
-             <img 
-              src={assets.Logo} 
-              alt="Outlease Logo" 
-              className="h-8 w-auto object-contain grayscale brightness-200"
-              onError={(e) => {
-                e.target.onerror = null;
-                e.target.src = 'https://via.placeholder.com/150x40?text=OUTLEASE';
-              }}
-            />
+             <h4>OUTLEASE</h4>
           </div>
           <p className="text-sm text-slate-500">
             The smartest way to consume. Borrow what you need, lend what you don't, and build a more sustainable community.

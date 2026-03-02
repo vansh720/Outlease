@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { assets } from '../assets/assets';
 
 const Support = () => {
   const canvasRef = useRef(null);
@@ -60,8 +61,8 @@ const Support = () => {
       
         <div className="flex flex-col items-center text-center mb-16">
           <div className="flex items-center gap-2 mb-6">
-            <div className="w-8 h-8 bg-[#149991] rounded-lg flex items-center justify-center transform rotate-3 shadow-sm">
-              <span className="text-white font-black text-lg -rotate-3">O</span>
+            <div className="w-12 h-12 rounded-lg flex items-center justify-center transform rotate-3 shadow-sm">
+              <img src={assets.Logo} alt="" />
             </div>
             <span className="text-2xl font-bold text-[#149991] tracking-tight">Outlease Support</span>
           </div>

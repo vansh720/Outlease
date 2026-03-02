@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
+import { assets } from '../assets/assets';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const navigate= useNavigate()
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -12,9 +16,10 @@ const Login = () => {
   return (
     <div className="min-h-screen bg-[#f8fafc] flex flex-col justify-center items-center px-4">
       {/* Logo / Brand Header */}
-      <div className="mb-8 flex items-center gap-2">
-        <div className="w-10 h-10 bg-[#009688] rounded-lg flex items-center justify-center shadow-sm">
-          <span className="text-white font-bold text-xl">O</span>
+      <div className="mb-4 flex items-center gap-2 mr-6">
+        <div className="w-12 h-12 rounded-lg flex items-center justify-center shadow-sm">
+          
+          <img src={assets.Logo} alt="Outlease logo" />
         </div>
         <h1 className="text-2xl font-bold text-[#004d40] tracking-tight">Outlease</h1>
       </div>
@@ -91,7 +96,7 @@ const Login = () => {
         {/* Footer */}
         <p className="mt-8 text-center text-gray-600 font-medium">
           New to Outlease?{" "}
-          <a href="#" className="text-[#009688] font-bold hover:underline">
+          <a className="text-[#009688] font-bold hover:underline"  onClick={()=>navigate("/register")}>
             Create account
           </a>
         </p>
