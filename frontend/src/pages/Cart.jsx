@@ -11,7 +11,6 @@ const Cart = () => {
       name: "High-Speed Decorative Ceiling Fan",
       price: 150,
       period: "day",
-      // Verified Working Image
       image: "https://images.unsplash.com/photo-1591102041235-9614c7729221?q=80&w=500&auto=format&fit=crop",
       quantity: 1
     },
@@ -44,7 +43,6 @@ const Cart = () => {
       name: "1.5 Ton 5-Star Inverter Split AC",
       price: 200,
       period: "week",
-      // Reliable Direct Image (Replaces the broken Croma link)
       image: "https://images.unsplash.com/photo-1621360241104-79308e2fc57a?q=80&w=500&auto=format&fit=crop",
       quantity: 1
     }
