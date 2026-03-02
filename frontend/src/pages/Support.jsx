@@ -89,7 +89,6 @@ const Support = () => {
           ))}
         </div>
 
-        
         <div className="bg-[#0c2423] rounded-[3rem] p-8 lg:p-16 text-white grid lg:grid-cols-2 gap-12 items-center">
           <div>
             <h2 className="text-4xl font-black mb-6">Still need help? <br /><span className="text-[#149991]">Drop us a message.</span></h2>
