@@ -1,4 +1,5 @@
 import React from 'react';
+import { assets } from '../assets/assets';
 
 const Register = () => {
   return (
@@ -8,8 +9,8 @@ const Register = () => {
         <div className="p-8 md:p-10">
           {/* Logo Section */}
           <div className="flex items-center gap-2 mb-10">
-            <div className="w-9 h-9 bg-[#009688] rounded-lg flex items-center justify-center shadow-inner">
-               <span className="text-white font-black text-xl italic leading-none">O</span>
+            <div className="w-12 h-12 rounded-lg flex items-center justify-center shadow-inner">
+               <img src={assets.Logo} alt="" />
             </div>
             <span className="text-2xl font-black tracking-tight text-[#009688]">Outlease</span>
           </div>

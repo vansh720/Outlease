@@ -49,3 +49,73 @@ export const addItem=async(req,res)=>{
         res.json({success:false,message:error.message})
     }
 }
+
+//API to list items by owner
+export const getOwnerItems = async(req,res)=>{
+    try {
+        const {_id}=req.user
+        const items = await Items.find({owner:_id})
+        res.json({success:true,items})
+    } catch (error) {
+        console.log(error.message)
+        res.json({success:false,message:error.message})
+    }
+}
+
+//API to toggle item availability
+export const toggleItemAvailability = async(req,res)=>{
+    try {
+        const {_id}=req.user
+        const {itemId} = req.body
+        const item = await Items.findById(itemId)
+
+        //Checking if item belongs to user
+        if(item.owner.toString()!==_id.toString()){
+            return res.json({success:false,message:"Unauthorised"})
+        }
+        item.isAvailable = !item.isAvailable
+        await item.save()
+        
+        res.json({success:true,message:"Availability toggled"})
+    } catch (error) {
+        console.log(error.message)
+        res.json({success:false,message:error.message})
+    }
+}
+
+//API to delete item
+export const deleteItem = async(req,res)=>{
+    try {
+        const {_id}=req.user
+        const {itemId} = req.body
+        const item = await Items.findById(itemId)
+
+        //Checking if item belongs to user
+        if(item.owner.toString()!==_id.toString()){
+            return res.json({success:false,message:"Unauthorised"})
+        }
+        item.owner= null;
+        item.isAvailable= false
+        await item.save()
+        
+        res.json({success:true,message:"Item removed"})
+    } catch (error) {
+        console.log(error.message)
+        res.json({success:false,message:error.message})
+    }
+}
+
+//API to get dashboard data
+export const getDahboardData = async()=>{
+    try {
+        const {_id,role}=req.user
+        if(role !=='owner'){
+            return res.json({success:false,message:"Unauthorized"})
+        }
+
+        const items=await Items.find({owner:_id})
+    } catch (error) {
+        console.log(error.message)
+        res.json({success:false,message:error.message})
+    }
+}
