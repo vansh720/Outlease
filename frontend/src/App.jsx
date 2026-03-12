@@ -16,13 +16,18 @@ import MyListings from './pages/owner/MyListings'
 import Cart from './pages/Cart'
 import Footer from './components/Footer'
 import RentalMap from './components/RentalMap'
+import {Toaster} from 'react-hot-toast'
+import { useAppContext } from './context/AppContext'
 
 const App = () => {
-  const [showLogin,setShowLogin]=useState(false)
+  const {showLogin,showRegister}=useAppContext()
   const isOwnerPath= useLocation().pathname.startsWith('/owner')
   return (
     <>
-    {!isOwnerPath && <Navbar setShowLogin={setShowLogin}/>}
+    <Toaster/>
+    {showLogin&&<Login/>}
+    {showRegister&&<Register/>}
+    {!isOwnerPath && <Navbar/>}
       <Routes>
         <Route path='/' element={<Home/>}/>
         <Route path='/cart' element={<Cart/>}/>

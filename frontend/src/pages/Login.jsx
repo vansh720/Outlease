@@ -1,105 +1,125 @@
-import React, { useState } from 'react';
-import { assets } from '../assets/assets';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import { assets } from "../assets/assets";
+import { useAppContext } from "../context/AppContext";
+import { toast } from "react-hot-toast";
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
 
-  const navigate= useNavigate()
+  const { setShowLogin, axios, setToken, navigate, setShowRegister } = useAppContext();
 
-  const handleLogin = (e) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleLogin = async (e) => {
     e.preventDefault();
-    console.log("Form Submitted", { email, password });
+
+    try {
+      const { data } = await axios.post("/api/user/login", {
+        email,
+        password,
+      });
+
+      if (data.success) {
+        setToken(data.token);
+        localStorage.setItem("token", data.token);
+        navigate("/");
+        setShowLogin(false);
+      } else {
+        toast.error(data.message);
+      }
+
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
 
   return (
-    <div className="min-h-screen bg-[#f8fafc] flex flex-col justify-center items-center px-4">
-      {/* Logo / Brand Header */}
-      <div className="mb-4 flex items-center gap-2 mr-6">
-        <div className="w-12 h-12 rounded-lg flex items-center justify-center shadow-sm">
-          
-          <img src={assets.Logo} alt="Outlease logo" />
-        </div>
-        <h1 className="text-2xl font-bold text-[#004d40] tracking-tight">Outlease</h1>
-      </div>
+    <div
+      onClick={() => setShowLogin(false)}
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm px-4"
+    >
 
-      <div className="bg-white w-full max-w-md p-8 rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100">
-        <div className="mb-10 text-center">
-          <h2 className="text-4xl font-extrabold text-[#002b26] mb-3 tracking-tight">
-            Welcome back
+      {/* Card */}
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="w-full max-w-sm bg-white rounded-xl shadow-lg p-6"
+      >
+
+        {/* Logo */}
+        <div className="flex flex-col items-center mb-6">
+          <img src={assets.Logo} className="w-10 mb-1" alt="logo" />
+          <h1 className="text-lg font-bold text-[#004d40]">Outlease</h1>
+        </div>
+
+        {/* Title */}
+        <div className="text-center mb-6">
+          <h2 className="text-2xl font-semibold text-gray-800">
+            Welcome Back
           </h2>
-          <p className="text-gray-500 font-medium">
-            Rent high-quality items from your neighborhood.
+          <p className="text-gray-500 text-xs mt-1">
+            Login to continue renting items
           </p>
         </div>
 
-        <form onSubmit={handleLogin} className="space-y-6">
-          {/* Email Input */}
-          <div className="group">
-            <label className="block text-sm font-bold text-[#004d40] mb-2 ml-1">
-              Email Address
+        {/* Form */}
+        <form onSubmit={handleLogin} className="space-y-4">
+
+          {/* Email */}
+          <div>
+            <label className="text-xs font-medium text-gray-600">
+              Email
             </label>
+
             <input
               type="email"
-              placeholder="name@company.com"
-              className="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:ring-4 focus:ring-[#009688]/10 focus:border-[#009688] outline-none transition-all duration-200"
+              placeholder="Enter your email"
+              className="mt-1 w-full px-3 py-2.5 text-sm border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-[#009688]"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
             />
           </div>
 
-          {/* Password Input */}
-          <div className="group">
-            <div className="flex justify-between items-center mb-2 ml-1">
-              <label className="text-sm font-bold text-[#004d40]">Password</label>
-              <a href="#" className="text-xs font-bold text-[#009688] hover:text-[#00796b]">
-                Forgot?
-              </a>
-            </div>
+          {/* Password */}
+          <div>
+            <label className="text-xs font-medium text-gray-600">
+              Password
+            </label>
+
             <input
               type="password"
-              placeholder="Enter a Password"
-              className="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:ring-4 focus:ring-[#009688]/10 focus:border-[#009688] outline-none transition-all duration-200"
+              placeholder="Enter your password"
+              className="mt-1 w-full px-3 py-2.5 text-sm border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-[#009688]"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
             />
           </div>
 
-          {/* Login Button */}
+          {/* Button */}
           <button
             type="submit"
-            className="w-full bg-[#009688] hover:bg-[#00796b] text-white font-bold py-4 rounded-2xl transition-all duration-300 shadow-lg shadow-[#009688]/20 transform hover:-translate-y-0.5"
+            className="w-full bg-[#009688] hover:bg-[#00796b] text-white text-sm font-semibold py-2.5 rounded-md transition"
           >
-            Log In
+            Login
           </button>
+
         </form>
 
-        {/* Divider */}
-        <div className="relative my-8">
-          <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-gray-100"></div>
-          </div>
-          <div className="relative flex justify-center text-sm">
-            <span className="px-4 bg-white text-gray-400">or continue with</span>
-          </div>
-        </div>
-
-        {/* Social Button */}
-        <button className="w-full flex items-center justify-center gap-3 border border-gray-200 py-3 rounded-2xl hover:bg-gray-50 transition-colors font-semibold text-gray-700">
-          <img src="https://www.svgrepo.com/show/475656/google-color.svg" loading="lazy" alt="google logo" className="w-5 h-5"/>
-          Sign in with Google
-        </button>
-
         {/* Footer */}
-        <p className="mt-8 text-center text-gray-600 font-medium">
-          New to Outlease?{" "}
-          <a className="text-[#009688] font-bold hover:underline"  onClick={()=>navigate("/register")}>
-            Create account
-          </a>
+        <p className="text-center text-xs text-gray-600 mt-5">
+          Don’t have an account?{" "}
+          <span
+            onClick={() => {
+              setShowLogin(false);
+              setShowRegister(true);
+            }}
+            className="text-[#009688] font-semibold cursor-pointer hover:underline"
+          >
+            Create one
+          </span>
         </p>
+
       </div>
     </div>
   );
