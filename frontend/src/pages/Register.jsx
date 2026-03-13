@@ -1,72 +1,143 @@
-import React from 'react';
+import React, { useState } from "react";
+import { assets } from "../assets/assets";
+import { useAppContext } from "../context/AppContext";
+import { toast } from "react-hot-toast";
 
 const Register = () => {
+
+  const { setShowLogin, axios, setToken, navigate, setShowRegister } = useAppContext();
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleRegister = async (e) => {
+    e.preventDefault();
+
+    try {
+      const { data } = await axios.post("/api/user/register", {
+        name,
+        email,
+        password,
+      });
+
+      if (data.success) {
+        setToken(data.token);
+        localStorage.setItem("token", data.token);
+        navigate("/");
+        setShowRegister(false);
+      } else {
+        toast.error(data.message);
+      }
+
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-tr from-[#f0f9f9] via-white to-[#e6f4f1] flex items-center justify-center p-4 font-sans text-[#111827]">
-      <div className="w-full max-w-md bg-white rounded-[2rem] shadow-2xl shadow-teal-900/5 border border-gray-100 overflow-hidden">
-        
-        <div className="p-8 md:p-10">
-          {/* Logo Section */}
-          <div className="flex items-center gap-2 mb-10">
-            <div className="w-9 h-9 bg-[#009688] rounded-lg flex items-center justify-center shadow-inner">
-               <span className="text-white font-black text-xl italic leading-none">O</span>
-            </div>
-            <span className="text-2xl font-black tracking-tight text-[#009688]">Outlease</span>
-          </div>
+    <div
+      onClick={() => setShowRegister(false)}
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm px-4"
+    >
 
-          {/* Header */}
-          <h1 className="text-4xl font-extrabold tracking-tight mb-3">
-            Create an <span className="text-[#009688]">Account.</span>
-          </h1>
-          <p className="text-gray-500 font-medium mb-8">
-            Join the community and access what you need, without buying it.
-          </p>
+      {/* Card */}
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="w-full max-w-sm bg-white rounded-xl shadow-lg p-6"
+      >
 
-          <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
-            {/* Name Input */}
-            <div className="space-y-2">
-              <label className="text-sm font-bold ml-1 uppercase tracking-wider text-gray-400">Full Name</label>
-              <input 
-                type="text" 
-                placeholder="Enter your name"
-                className="w-full px-5 py-4 rounded-2xl border-2 border-gray-50 bg-gray-50/50 focus:bg-white focus:border-[#009688] focus:ring-4 focus:ring-[#009688]/10 outline-none transition-all placeholder:text-gray-400"
-              />
-            </div>
-
-            {/* Email Input */}
-            <div className="space-y-2">
-              <label className="text-sm font-bold ml-1 uppercase tracking-wider text-gray-400">Email Address</label>
-              <input 
-                type="email" 
-                placeholder="Enter your E-mail"
-                className="w-full px-5 py-4 rounded-2xl border-2 border-gray-50 bg-gray-50/50 focus:bg-white focus:border-[#009688] focus:ring-4 focus:ring-[#009688]/10 outline-none transition-all placeholder:text-gray-400"
-              />
-            </div>
-
-            {/* Password Input */}
-            <div className="space-y-2">
-              <label className="text-sm font-bold ml-1 uppercase tracking-wider text-gray-400">Password</label>
-              <input 
-                type="password" 
-                placeholder="••••••••"
-                className="w-full px-5 py-4 rounded-2xl border-2 border-gray-50 bg-gray-50/50 focus:bg-white focus:border-[#009688] focus:ring-4 focus:ring-[#009688]/10 outline-none transition-all"
-              />
-            </div>
-
-            {/* Submit Button */}
-            <button className="w-full bg-[#009688] hover:bg-[#00796b] text-white text-lg font-bold py-4 rounded-2xl transition-all shadow-lg shadow-[#009688]/30 active:scale-[0.98] mt-4">
-              Get Started
-            </button>
-          </form>
-
-          {/* Footer Link */}
-          <div className="mt-10 text-center border-t border-gray-50 pt-6">
-            <p className="text-gray-500 font-medium">
-              Already using Outlease? 
-              <button className="ml-2 text-[#009688] font-bold hover:underline transition-all">Log in</button>
-            </p>
-          </div>
+        {/* Logo */}
+        <div className="flex flex-col items-center mb-6">
+          <img src={assets.Logo} className="w-10 mb-1" alt="logo" />
+          <h1 className="text-lg font-bold text-[#004d40]">Outlease</h1>
         </div>
+
+        {/* Title */}
+        <div className="text-center mb-6">
+          <h2 className="text-2xl font-semibold text-gray-800">
+            Create Account
+          </h2>
+          <p className="text-gray-500 text-xs mt-1">
+            Start renting items easily
+          </p>
+        </div>
+
+        {/* Form */}
+        <form onSubmit={handleRegister} className="space-y-4">
+
+          {/* Name */}
+          <div>
+            <label className="text-xs font-medium text-gray-600">
+              Full Name
+            </label>
+
+            <input
+              type="text"
+              placeholder="Enter your name"
+              className="mt-1 w-full px-3 py-2.5 text-sm border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-[#009688]"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
+          </div>
+
+          {/* Email */}
+          <div>
+            <label className="text-xs font-medium text-gray-600">
+              Email
+            </label>
+
+            <input
+              type="email"
+              placeholder="Enter your email"
+              className="mt-1 w-full px-3 py-2.5 text-sm border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-[#009688]"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+
+          {/* Password */}
+          <div>
+            <label className="text-xs font-medium text-gray-600">
+              Password
+            </label>
+
+            <input
+              type="password"
+              placeholder="Create password"
+              className="mt-1 w-full px-3 py-2.5 text-sm border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-[#009688]"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+
+          {/* Button */}
+          <button
+            type="submit"
+            className="w-full bg-[#009688] hover:bg-[#00796b] text-white text-sm font-semibold py-2.5 rounded-md transition"
+          >
+            Create Account
+          </button>
+
+        </form>
+
+        {/* Footer */}
+        <p className="text-center text-xs text-gray-600 mt-5">
+          Already have an account?{" "}
+          <span
+            onClick={() => {
+              setShowRegister(false);
+              setShowLogin(true);
+            }}
+            className="text-[#009688] font-semibold cursor-pointer hover:underline"
+          >
+            Login
+          </span>
+        </p>
+
       </div>
     </div>
   );

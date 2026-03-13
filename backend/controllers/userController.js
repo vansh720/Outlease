@@ -1,6 +1,7 @@
 import User from "../models/User.js"
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
+import Items from "../models/AddItem.js";
 
 //Generate JWT token
 const generateToken = (userId)=>{
@@ -60,6 +61,17 @@ export const getUserData = async(req,res)=>{
     try {
         const {user}=req;
         res.json({success:true,user})
+    } catch (error) {
+        console.log(error.message)
+        res.json({success:false,message: error.message})
+    }
+}
+
+// get all items for frontend
+export const getItems = async(req,res)=>{
+    try {
+        const items=await Items.find({isAvailable:true})
+        res.json({success:true,items})
     } catch (error) {
         console.log(error.message)
         res.json({success:false,message: error.message})

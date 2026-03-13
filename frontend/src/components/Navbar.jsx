@@ -3,10 +3,27 @@ import { Menu, X, Search, PlusCircle, ShoppingBag, RefreshCcw, Contact } from 'l
 import { useState } from 'react';
 import { assets } from '../assets/assets';
 import { useNavigate } from 'react-router-dom';
+import { useAppContext } from '../context/AppContext';
+import toast, { Toaster } from 'react-hot-toast';
 
 const Navbar = () => {
+  const{setShowLogin,user,logout,isOwner,axios,setIsOwner}=useAppContext()
   const navigate = useNavigate();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const changeRole=async()=>{
+    try {
+      const{data}=await axios.post('/api/owner/change-role')
+      if(data.success){
+        setIsOwner(true)
+        toast.success(data.message)
+      }else{
+        toast.error(data.message)
+      }
+    } catch (error) {
+      toast.error(error.message)
+    }
+  }
 
   return (
     <nav className="sticky top-0 z-50 bg-white border-b border-gray-100 shadow-sm">
@@ -37,12 +54,12 @@ const Navbar = () => {
 
           {/* Desktop Actions */}
           <div className="hidden md:flex items-center gap-6">
-            <button className="text-gray-600 hover:text-teal-600 font-medium transition-colors" onClick={()=>navigate("/login")}>
-              Log in
+            <button className="text-gray-600 hover:text-teal-600 font-medium transition-colors" onClick={()=>{user?logout():setShowLogin(true)}}>
+              { user?'Logout' : 'Login'}
             </button>
-            <button className="flex items-center gap-2 bg-teal-50 text-teal-700 px-4 py-2 rounded-full font-semibold hover:bg-teal-100 transition-colors" onClick={()=> navigate("/owner/add-items")}>
+            <button className="flex items-center gap-2 bg-teal-50 text-teal-700 px-4 py-2 rounded-full font-semibold hover:bg-teal-100 transition-colors" onClick={()=> isOwner? navigate("/owner"):changeRole()}>
               <PlusCircle className="w-5 h-5" />
-              List an Item
+              { isOwner?'Dashboard':'List an Item'}
             </button>
              <button className="flex items-center gap-2 bg-teal-50 text-teal-700 px-4 py-2 rounded-full font-semibold hover:bg-teal-100 transition-colors" onClick={()=> navigate("/support")}>
               <Contact className="w-5 h-5" />
