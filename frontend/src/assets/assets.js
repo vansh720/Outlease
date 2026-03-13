@@ -69,7 +69,7 @@ export const ownerMenuLinks = [
     { name: "Dashboard", path: "/owner", icon: dashboardIcon, coloredIcon: dashboardIconColored },
     { name: "Add Items", path: "/owner/add-items", icon: addIcon, coloredIcon: addIconColored },
     { name: "Manage Items", path: "/owner/manage-items", icon: carIcon, coloredIcon: carIconColored },
-    { name: "My Listings", path: "/owner/my-listings", icon: listIcon, coloredIcon: listIconColored },
+    { name: "Manage Bookings", path: "/owner/manage-bookings", icon: listIcon, coloredIcon: listIconColored },
 ]
 
 
