@@ -1,16 +1,16 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "main": "server.js",
+  "description": "",
+  "keywords": [],
+  "license": "ISC",
+  "author": "",
   "type": "module",
+  "main": "server.js",
   "scripts": {
     "server": "nodemon server.js",
     "start": "node server.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
   "dependencies": {
     "@imagekit/nodejs": "^7.3.0",
     "bcrypt": "^6.0.0",
