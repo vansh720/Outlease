@@ -12,12 +12,12 @@ import Support from './pages/Support'
 import Navbar from './components/Navbar'
 import Layout from './pages/owner/Layout'
 import ManageItems from './pages/owner/ManageItems'
-import MyListings from './pages/owner/MyListings'
 import Cart from './pages/Cart'
 import Footer from './components/Footer'
 import RentalMap from './components/RentalMap'
 import {Toaster} from 'react-hot-toast'
 import { useAppContext } from './context/AppContext'
+import ManageBookings from './pages/owner/ManageBookings'
 
 const App = () => {
   const {showLogin,showRegister}=useAppContext()
@@ -42,7 +42,7 @@ const App = () => {
         <Route index element={<Dashboard/>}/>
         <Route path='add-items' element={<AddItem/>}/>
         <Route path='manage-items' element={<ManageItems/>}/>
-        <Route path='my-listings' element={<MyListings/>}/>
+        <Route path='manage-bookings' element={<ManageBookings/>}/>
         </Route>
       </Routes>
       <Footer/>
