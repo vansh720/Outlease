@@ -70,7 +70,7 @@ export const getUserData = async(req,res)=>{
 // get all items for frontend
 export const getItems = async(req,res)=>{
     try {
-        const items=await Items.find({isAvailable:true})
+        const items=await Items.find({isAvailable:true}).populate('owner','name')
         res.json({success:true,items})
     } catch (error) {
         console.log(error.message)

@@ -129,7 +129,21 @@ return ( <div className="px-4 py-10 md:px-10 flex-1">
     </div>
 
     {/* Brand & Model */}
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+
+      <div className="flex flex-col">
+        <label>Item Name</label>
+        <input
+          type="text"
+          required
+          className="px-3 py-2 mt-1 border rounded-md"
+          value={item.itemName}
+          onChange={(e) =>
+            setItem({ ...item, itemName: e.target.value })
+          }
+        />
+      </div>
 
       <div className="flex flex-col">
         <label>Brand</label>
@@ -198,10 +212,14 @@ return ( <div className="px-4 py-10 md:px-10 flex-1">
           }
         >
           <option value="">Select Category</option>
-          <option value="electronics">Electronics</option>
-          <option value="furniture">Furniture</option>
-          <option value="cooking appliances">Cooking Appliances</option>
-          <option value="vehicle">Vehicle</option>
+          <option value="Electronics">Electronics</option>
+          <option value="Furniture">Furniture</option>
+          <option value="Cooking appliances">Cooking Appliances</option>
+          <option value="Vehicle">Vehicle</option>
+          <option value="Photography">Photography</option>
+          <option value="Camping">Camping</option>
+          <option value="Tools">Tools</option>
+          <option value="Party Supplies">Party Supplies</option>
         </select>
       </div>
 
@@ -234,6 +252,23 @@ return ( <div className="px-4 py-10 md:px-10 flex-1">
         )}
 
       </MapContainer>
+
+      <div className="flex flex-col">
+        <label>Location Name</label>
+        <select
+          className="px-3 py-2 mt-1 border rounded-md"
+          value={item.locationName}
+          onChange={(e) =>
+            setItem({ ...item, locationName: e.target.value })
+          }
+        >
+          <option value="">Select Location</option>
+          <option value="Mohali">Mohali</option>
+          <option value="Chandigrah">Chandigarh</option>
+          <option value="Panchkula">Panchkula</option>
+          <option value="Zirakpur">Zirakpur</option>
+        </select>
+      </div>
 
     </div>
 

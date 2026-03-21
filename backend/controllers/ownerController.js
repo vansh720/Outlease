@@ -107,7 +107,7 @@ export const deleteItem = async(req,res)=>{
 }
 
 //API to get dashboard data
-export const getDashboardData = async()=>{
+export const getDashboardData = async(req,res)=>{
     try {
         const {_id,role}=req.user
         if(role !=='owner'){

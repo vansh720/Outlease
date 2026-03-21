@@ -3,6 +3,7 @@ const{ObjectId}=mongoose.Schema.Types
 
 const AddItemSchema = new mongoose.Schema({
     owner:{type: ObjectId, ref:'User'},
+    itemName:{type:String,required:true},
     brand:{type:String,required:true},
     model:{type:String,required:true},
     image:{type:String,required:true},
@@ -13,6 +14,7 @@ const AddItemSchema = new mongoose.Schema({
     type: { type: String, enum: ['Point'], required: true },
     coordinates: { type: [Number], required: true } 
   },
+  locationName: { type: String, required: true },
     description:{type:String,required:true},
     isAvailable:{type:Boolean,default:true}
 },{timestamps:true})
