@@ -43,6 +43,7 @@ export const AppProvider=({children})=>{
     const fetchItems=async()=>{
         try {
             const {data} = await axios.get('/api/user/items')
+            fetchItems()
             data.success? setItems(data.items):toast.error(data.message)
         } catch (error){
             toast.error(error.message)

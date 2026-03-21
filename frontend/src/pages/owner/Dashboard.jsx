@@ -5,7 +5,7 @@ import { useAppContext } from '../../context/AppContext'
 
 const Dashboard = () => {
 
-  const{axios,isOwner,currency}=useAppContext()
+  const{axios,isOwner,currency,toast}=useAppContext()
 
   const [data,setData]=useState({
     totalItems:0,

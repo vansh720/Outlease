@@ -67,7 +67,7 @@ export const createBooking = async(req,res)=>{
 export const getUserBookings=async(req,res)=>{
     try {
         const {_id}=req.user;
-        const bookings = (await Booking.find({user:_id}).populate("item")).sort({createdAt:-1})
+        const bookings = await Booking.find({user:_id}).populate("item").sort({createdAt:-1})
         res.json({success:true, bookings})
 
     } catch (error) {
@@ -82,7 +82,7 @@ export const getOwnerBookings=async(req,res)=>{
         if(req.user.role !=='owner'){
             return res.json({success:false,message:"Unauthorized"})
         }
-        const bookings = (await Booking.find({owner:req.user._id}).populate('item user').select("-user.password")).sort({createdAt:-1})
+        const bookings = await Booking.find({owner:req.user._id}).populate('item user').select("-user.password").sort({createdAt:-1})
         res.json({success:true, bookings})
     } catch (error) {
         console.log(error.message)

@@ -47,10 +47,10 @@ const Chat = ({ item, owner, onBack }) => {
             </button>
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-teal-100 rounded-full flex items-center justify-center text-teal-700 font-bold text-lg shrink-0">
-                {owner.charAt(0)}
+                {item.owner?.name?.charAt(0)}
               </div>
               <div>
-                <h2 className="font-bold text-gray-900 leading-tight">{owner}</h2>
+                <h2 className="font-bold text-gray-900 leading-tight">{owner?.name}</h2>
                 <p className="text-xs text-teal-600 font-medium flex items-center gap-1">
                   <span className="w-2 h-2 rounded-full bg-teal-500 inline-block"></span> Online
                 </p>
@@ -64,10 +64,10 @@ const Chat = ({ item, owner, onBack }) => {
 
         {/* Item Context Banner */}
         <div className="bg-slate-900 text-white px-4 py-3 flex items-center gap-3 border-x border-slate-800 shadow-inner">
-          <img src={item.image} alt={item.title} className="w-10 h-10 rounded object-cover border border-slate-700" />
+          <img src={item.image} alt={item.itemName} className="w-10 h-10 rounded object-cover border border-slate-700" />
           <div className="flex-1 overflow-hidden">
-            <p className="text-sm font-semibold truncate">{item.title}</p>
-            <p className="text-xs text-slate-400">₹{item.price}/{item.period}</p>
+            <p className="text-sm font-semibold truncate">{item.itemName}</p>
+            <p className="text-xs text-slate-400">₹{item.pricePerMonth}/Month</p>
           </div>
           <button onClick={onBack} className="bg-white/10 hover:bg-white/20 text-white px-3 py-1.5 rounded-lg text-xs font-medium transition-colors border border-white/10">
             View Details

@@ -18,20 +18,20 @@ const ItemDetails = ({ item, onBack, onChat }) => {
           {/* Left Column: Image & Information */}
           <div className="lg:col-span-2 space-y-8">
             <div className="h-64 sm:h-96 rounded-2xl overflow-hidden relative shadow-sm">
-              <img src={item.image} alt={item.title} className="w-full h-full object-cover" />
+              <img src={item.image} className="w-full h-full object-cover" />
               <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1.5 rounded-lg text-sm font-semibold text-gray-700 shadow-sm">
                 {item.category}
               </div>
             </div>
 
             <div>
-              <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-4 leading-tight">{item.title}</h1>
+              <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-4 leading-tight">{item.itemName}</h1>
               <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600 border-b border-gray-100 pb-6">
                 <span className="flex items-center gap-1 text-amber-500 font-medium">
-                  <Star className="w-5 h-5 fill-current" /> {item.rating} ({item.reviews} reviews)
+                  <Star className="w-5 h-5 fill-current" /> {item.model}
                 </span>
                 <span className="flex items-center gap-1">
-                  <MapPin className="w-4 h-4 text-gray-400" /> {item.location}
+                  <MapPin className="w-4 h-4 text-gray-400" /> {item.locationName}
                 </span>
                 <span className="flex items-center gap-1 text-teal-600 bg-teal-50 px-2 py-1 rounded-md font-medium">
                   <CheckCircle className="w-4 h-4" /> Verified Item
@@ -49,10 +49,10 @@ const ItemDetails = ({ item, onBack, onChat }) => {
             <div className="bg-slate-50 p-6 rounded-2xl border border-slate-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
                <div className="flex items-start gap-4">
                  <div className="w-12 h-12 bg-teal-100 rounded-full flex items-center justify-center text-teal-700 font-bold text-xl shrink-0">
-                   {item.owner.charAt(0)}
+                   {item.owner?.name?.charAt(0)}
                  </div>
                  <div>
-                   <h3 className="font-bold text-gray-900">Owned by {item.owner}</h3>
+                   <h3 className="font-bold text-gray-900">Owned by {item.owner?.name}</h3>
                    <p className="text-sm text-gray-500 mt-1">Usually responds within an hour. 100% rental completion rate.</p>
                  </div>
                </div>
@@ -61,7 +61,7 @@ const ItemDetails = ({ item, onBack, onChat }) => {
                  onClick={onChat}
                  className="w-full sm:w-auto bg-white border-2 border-teal-100 text-teal-700 px-6 py-2.5 rounded-xl font-bold text-sm hover:bg-teal-50 transition-colors flex items-center justify-center gap-2 shadow-sm whitespace-nowrap"
                >
-                 <MessageSquare className="w-4 h-4" /> Message {item.owner.split(' ')[0]}
+                 <MessageSquare className="w-4 h-4" /> Message {item.owner?.name}
                </button>
             </div>
           </div>
@@ -70,8 +70,8 @@ const ItemDetails = ({ item, onBack, onChat }) => {
           <div className="lg:col-span-1">
             <div className="bg-white rounded-3xl p-6 border border-gray-200 shadow-lg sticky top-24">
               <div className="mb-6">
-                <span className="text-3xl font-extrabold text-teal-600">₹{item.price}</span>
-                <span className="text-gray-500 font-medium"> / {item.period}</span>
+                <span className="text-3xl font-extrabold text-teal-600">₹{item.pricePerMonth}</span>
+                <span className="text-gray-500 font-medium"> / Month</span>
               </div>
 
               <div className="space-y-4 mb-6">
@@ -97,16 +97,16 @@ const ItemDetails = ({ item, onBack, onChat }) => {
 
               <div className="space-y-3 pt-6 border-t border-gray-100">
                 <div className="flex justify-between text-gray-600">
-                  <span>₹{item.price} x 1 {item.period}</span>
-                  <span>₹{item.price}</span>
+                  <span>₹{item.pricePerMonth} x 1 Month</span>
+                  <span>₹{item.pricePerMonth}</span>
                 </div>
                 <div className="flex justify-between text-gray-600">
                   <span className="underline decoration-dashed decoration-gray-400 cursor-help">Outlease Service Fee</span>
-                  <span>₹{Math.round(item.price * 0.1)}</span>
+                  <span>₹{Math.round(item.pricePerMonth * 0.1)}</span>
                 </div>
                 <div className="flex justify-between font-bold text-gray-900 pt-3 border-t border-gray-100 text-lg">
                   <span>Total (Before Taxes)</span>
-                  <span>₹{item.price + Math.round(item.price * 0.1)}</span>
+                  <span>₹{item.pricePerMonth + Math.round(item.pricePerMonth * 0.1)}</span>
                 </div>
               </div>
             </div>
