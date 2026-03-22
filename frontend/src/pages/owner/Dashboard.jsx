@@ -71,7 +71,7 @@ const Dashboard = () => {
                   <img src={assets.listIconColored} alt="" className='h-5 w-5'/>
                 </div>
               <div>
-                <p>{booking.car.brand} {booking.car.model}</p>
+                <p>{booking.item.brand} {booking.item.model}</p>
                 <p className='text-sm text-gray-500'>{booking.createdAt.split('T')[0]}</p>
               </div>
               </div>
