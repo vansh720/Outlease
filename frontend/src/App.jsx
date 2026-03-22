@@ -18,6 +18,8 @@ import RentalMap from './components/RentalMap'
 import {Toaster} from 'react-hot-toast'
 import { useAppContext } from './context/AppContext'
 import ManageBookings from './pages/owner/ManageBookings'
+import MyBookings from './pages/Mybookings'
+import PaymentSuccess from './pages/PaymentSuccess'
 
 const App = () => {
   const {showLogin,showRegister}=useAppContext()
@@ -37,6 +39,9 @@ const App = () => {
         <Route path='/chat/:id' element={<Chat/>}/>
         <Route path='/profile' element={<Profile/>}/>
         <Route path='support' element={<Support/>}/>
+        <Route path='/my-bookings' element={<MyBookings/>}/>
+        <Route path='/payment-success' element={<PaymentSuccess/>}/>
+
         <Route path='map' element={<RentalMap/>}/>
         <Route path='/owner' element={<Layout/>}>
         <Route index element={<Dashboard/>}/>
