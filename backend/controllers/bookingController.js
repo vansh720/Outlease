@@ -20,7 +20,7 @@ export const checkAvailabilityOfItem = async(req,res)=>{
 
         //check item availability for give date range using promise
         const availableItemsPromises = items.map(async(item)=>{
-        const isAvailable= await checkAvailability(car._id,pickupDate,returnDate)
+        const isAvailable= await checkAvailability(item._id,pickupDate,returnDate)
         return {...item._doc , isAvailable: isAvailable}
         })
 
@@ -38,7 +38,7 @@ export const checkAvailabilityOfItem = async(req,res)=>{
 export const createBooking = async(req,res)=>{
     try {
         const {_id}=req.user;
-        const {item,pickupDate,returnDate}=req.body;
+        const {item,pickupDate,returnDate,pickupLocation}=req.body;
 
         const isAvailable = await checkAvailability(item,pickupDate,returnDate)
         if(!isAvailable){
@@ -47,13 +47,25 @@ export const createBooking = async(req,res)=>{
 
         const itemData = await Items.findById(item)
 
-        //Calculate price based on pickup and return date
+        // Calculate days
         const picked=new Date(pickupDate)
         const returned=new Date(returnDate)
-        const noOfDays =Math.ceil((returned-picked)/(1000*60*60*24))
-        const price = itemData.pricePerMonth*noOfDays
+        const noOfDays = Math.ceil((returned-picked)/(1000*60*60*24))
 
-        await Booking.create({item,owner:itemData.owner,user:_id,pickupDate,returnDate,price})
+        // 🔥 Fix pricing (monthly → daily)
+        const pricePerDay = itemData.pricePerMonth / 30
+        const price = Math.round(pricePerDay * noOfDays)
+
+        await Booking.create({
+            item,
+            owner:itemData.owner,
+            user:_id,
+            pickupDate,
+            returnDate,
+            pickupLocation, 
+            status: "confirmed",// ✅ added
+            price
+        })
 
         res.json({success:true,message:"Booking Created"})
 
