@@ -104,14 +104,16 @@ export const AppProvider = ({ children }) => {
     navigate,
     currency,
     axios,
-
     user,
+    setUser,
     token,
+    setToken,
     isOwner,
-
+    setIsOwner,
     items,
+    setItems,
     bookings,
-
+    setBookings,
     pickupDate,
     setPickupDate,
     returnDate,
@@ -124,7 +126,8 @@ export const AppProvider = ({ children }) => {
     fetchItems,
     fetchBookings,
     createBooking,
-    logout
+    logout,
+    fetchUser,
   };
 
   return (
