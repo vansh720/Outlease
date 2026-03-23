@@ -15,6 +15,8 @@ export const AppProvider = ({ children }) => {
   const [token, setToken] = useState(null);
   const [user, setUser] = useState(null);
   const [isOwner, setIsOwner] = useState(false);
+  const[showLogin,setShowLogin]=useState(false); 
+  const[showRegister,setShowRegister]=useState(false)
 
   const [items, setItems] = useState([]);
   const [bookings, setBookings] = useState([]);
@@ -114,6 +116,10 @@ export const AppProvider = ({ children }) => {
     setPickupDate,
     returnDate,
     setReturnDate,
+    showLogin,
+    setShowLogin,
+    showRegister,
+    setShowRegister,
 
     fetchItems,
     fetchBookings,
