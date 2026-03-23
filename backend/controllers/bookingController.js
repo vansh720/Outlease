@@ -63,7 +63,7 @@ export const createBooking = async(req,res)=>{
             pickupDate,
             returnDate,
             pickupLocation, 
-            status: "confirmed",// ✅ added
+            status: "completed",
             price
         })
 
