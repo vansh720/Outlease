@@ -8,41 +8,40 @@ const PaymentSuccess = () => {
 
   useEffect(() => {
 
-    const createBooking = async () => {
-      try {
-        const bookingData = JSON.parse(localStorage.getItem("bookingData"));
+  const createBooking = async () => {
+    try {
+      const bookingData = JSON.parse(localStorage.getItem("bookingData"));
 
-        if (!bookingData) return;
-
-        // ✅ Create booking
-        const res = await axios.post('/api/booking/create', bookingData);
-
-        if (res.data.success) {
-
-          // ✅ Update state
-          await fetchBookings();
-
-          // ✅ Clear storage
-          localStorage.removeItem("bookingData");
-
-          // ✅ Delay for smooth UX
-          setTimeout(() => {
-            navigate('/my-bookings');
-          }, 1200);
-        }
-
-      } catch (error) {
-        console.log(error);
+      if (!bookingData) {
+        navigate("/my-bookings");
+        return;
       }
-    };
 
-    createBooking();
+      // 🔥 Ensure token is set
+      const token = localStorage.getItem("token");
+      if (token) {
+        axios.defaults.headers.common['Authorization'] = token;
+      }
 
-  }, []);
+      const res = await axios.post('/api/booking/create', bookingData);
 
+      if (res.data.success) {
+        await fetchBookings();
+        localStorage.removeItem("bookingData");
+        navigate("/my-bookings", { replace: true });
+      }
+
+    } catch (error) {
+      console.log(error);
+      navigate("/my-bookings");
+    }
+  };
+
+  createBooking();
+
+}, []);
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
-
       <div className="bg-white p-8 rounded-3xl shadow-lg text-center max-w-md w-full border">
 
         <div className="flex justify-center mb-5">
@@ -56,7 +55,7 @@ const PaymentSuccess = () => {
         </h1>
 
         <p className="text-gray-500 mb-4">
-          Your booking is being confirmed...
+          Finalizing your booking...
         </p>
 
         <div className="flex justify-center">
@@ -64,7 +63,6 @@ const PaymentSuccess = () => {
         </div>
 
       </div>
-
     </div>
   );
 };

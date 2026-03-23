@@ -60,7 +60,7 @@ export const AppProvider = ({ children }) => {
   // 🔥 Create booking
   const createBooking = async (bookingData) => {
     try {
-      const { data } = await axios.post('/api/user/create', bookingData);
+      const { data } = await axios.post('/api/booking/create', bookingData);
 
       if (data.success) {
         toast.success("Booking Confirmed 🚀");
@@ -122,7 +122,6 @@ export const AppProvider = ({ children }) => {
     setShowLogin,
     showRegister,
     setShowRegister,
-
     fetchItems,
     fetchBookings,
     createBooking,

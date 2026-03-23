@@ -8,7 +8,7 @@ const bookingSchema = new mongoose.Schema({
     pickupDate:{type:Date,required:true},
     returnDate:{type:Date,required:true},
     pickupLocation:{type:String,required:true},
-    status:{type:String,enum:["pending","confirmed","cancelled"],default:"pending"},
+    status:{type:String,enum:["pending","completed","cancelled"],default:"pending"},
     price:{type:Number,required:true}
 },{timestamps:true})
 
