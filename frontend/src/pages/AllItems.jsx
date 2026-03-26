@@ -1,115 +1,128 @@
-import React from 'react'
+import React, { useState } from "react";
+import { useAppContext } from "../context/AppContext";
+import { MapPin, Heart } from "lucide-react";
+import ItemDetails from "./ItemDetails";
+import Chat from "./Chat";
 
+const AllItems = () => {
+  const { items } = useAppContext();
 
-  const AllItemsPage = ({ onItemSelected, onBack }) => {
-  const [items, setItems] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [activeCategory, setActiveCategory] = useState("All Items");
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [chatOwner, setChatOwner] = useState(null);
 
-  useEffect(() => {
-    // ---------------------------------------------------------
-    //  ⬇️ ADD YOUR API CALL TO FETCH ALL ITEMS HERE ⬇️
-    // ---------------------------------------------------------
-    const fetchAllItems = async () => {
-      try {
-        setLoading(true);
-        // Replace this URL with your actual backend API endpoint for all items when ready
-        // const response = await fetch('http://localhost:5000/api/all-items');
-        // const data = await response.json();
-        
-        // Simulating a network request for the preview environment to prevent fetch errors
-        await new Promise(resolve => setTimeout(resolve, 800));
-        const data = FEATURED_ITEMS; // Using mock data as a placeholder
-        
-        setItems(data);
-      } catch (err) {
-        console.error("Error fetching all items:", err);
-        setItems(FEATURED_ITEMS); 
-      } finally {
-        setLoading(false);
-      }
-    };
+  if (chatOwner) {
+    return (
+      <Chat
+        item={selectedItem}
+        owner={chatOwner}
+        onBack={() => setChatOwner(null)}
+      />
+    );
+  }
 
-    fetchAllItems();
-  }, []);
-
-  const filteredItems = activeCategory === "All Items" 
-    ? items 
-    : items.filter(item => item.category === activeCategory);
+  if (selectedItem) {
+    return (
+      <ItemDetails
+        item={selectedItem}
+        onBack={() => setSelectedItem(null)}
+        onChat={() => setChatOwner(selectedItem.owner)}
+      />
+    );
+  }
 
   return (
-    <div className="bg-gray-50 min-h-screen py-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        {/* Header Area */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
-          <div>
-            <button 
-              onClick={onBack} 
-              className="flex items-center gap-2 text-gray-500 hover:text-teal-600 mb-2 font-medium transition-colors"
-            >
-              <ArrowLeft className="w-5 h-5" /> Back to Home
-            </button>
-            <h1 className="text-3xl font-extrabold text-gray-900">Explore All Items</h1>
-            <p className="text-gray-600 mt-2">Find exactly what you need from our entire catalog.</p>
-          </div>
+    <div className="min-h-screen bg-gray-50 px-6 py-10">
+      
+      {/* Heading */}
+      <div className="max-w-7xl mx-auto mb-10">
+        <h1 className="text-4xl font-extrabold text-gray-900 mb-2">
+          Explore All Items
+        </h1>
+        <p className="text-gray-500">
+          Discover everything available in your area
+        </p>
+      </div>
 
-          {/* Quick Search & Filter Button */}
-          <div className="flex items-center gap-3">
-            <div className="relative">
-              <input 
-                type="text" 
-                placeholder="Search..." 
-                className="pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-teal-500 bg-white"
-              />
-              <Search className="absolute left-3 top-3 w-4 h-4 text-gray-400" />
-            </div>
-            <button className="flex items-center gap-2 bg-white border border-gray-200 text-gray-700 px-4 py-2.5 rounded-xl font-medium hover:bg-gray-50 transition-colors">
-              <Filter className="w-4 h-4" /> Filters
-            </button>
-          </div>
-        </div>
-
-        {/* Categories Pills */}
-        <div className="flex overflow-x-auto pb-4 mb-8 gap-3 hide-scrollbar border-b border-gray-200">
-          {CATEGORIES.map(category => (
-            <button
-              key={category}
-              onClick={() => setActiveCategory(category)}
-              className={`whitespace-nowrap px-5 py-2.5 rounded-full text-sm font-medium transition-all ${
-                activeCategory === category 
-                  ? 'bg-slate-900 text-white shadow-md' 
-                  : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200'
-              }`}
-            >
-              {category}
-            </button>
-          ))}
-        </div>
-
-        {/* Items Grid & Loading State */}
-        {loading ? (
-          <div className="text-center py-20">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600 mx-auto"></div>
-            <p className="text-gray-500 mt-4 font-medium animate-pulse">Loading all items...</p>
-          </div>
-        ) : filteredItems.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {filteredItems.map((item) => (
-              <ItemCard key={item.id} item={item} onClick={onItemSelected} />
-            ))}
+      {/* Items Grid */}
+      <div className="max-w-7xl mx-auto">
+        {items.length === 0 ? (
+          <div className="text-center py-20 text-gray-500">
+            No items available right now.
           </div>
         ) : (
-          <div className="text-center py-20 bg-white rounded-3xl border border-dashed border-gray-200 shadow-sm">
-            <Search className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-            <h3 className="text-lg font-bold text-gray-900">No items found</h3>
-            <p className="text-gray-500 font-medium mt-1">Try selecting a different category or adjusting your search.</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            
+            {items.map((item) => (
+              <div
+                key={item._id}
+                onClick={() =>{
+                  setSelectedItem(item)
+                  window.scrollTo(0, 0);
+                }} 
+                className="bg-white rounded-2xl overflow-hidden border border-gray-200 hover:shadow-xl transition-all duration-300 group cursor-pointer flex flex-col"
+              >
+                
+                {/* Image */}
+                <div className="relative h-52 overflow-hidden">
+                  <img
+                    src={item.image}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+
+                  <button className="absolute top-3 right-3 p-2 bg-white/80 rounded-full hover:text-red-500 transition">
+                    <Heart className="w-5 h-5" />
+                  </button>
+
+                  <div className="absolute bottom-3 left-3 bg-white/90 px-2 py-1 rounded-md text-xs font-semibold">
+                    {item.category}
+                  </div>
+                </div>
+
+                {/* Content */}
+                <div className="p-5 flex flex-col flex-grow">
+                  
+                  <h2 className="font-bold text-lg text-gray-900 mb-1">
+                    {item.itemName}
+                  </h2>
+
+                  <p className="text-sm text-gray-500 mb-2">
+                    {item.brand} • {item.model}
+                  </p>
+
+                  <div className="flex items-center text-sm text-gray-500 mb-2">
+                    <MapPin className="w-4 h-4 mr-1" />
+                    {item.locationName}
+                  </div>
+
+                  <p className="text-sm text-gray-600 mb-4">
+                    Owner: {item.owner?.name}
+                  </p>
+
+                  <div className="mt-auto flex items-center justify-between pt-3 border-t">
+                    <span className="text-xl font-bold text-teal-600">
+                      ₹{item.pricePerMonth}
+                    </span>
+
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation(); // 🔥 IMPORTANT
+                        setSelectedItem(item);
+                      }}
+                      className="bg-slate-900 text-white px-4 py-2 rounded-lg text-sm hover:bg-slate-800 transition"
+                    >
+                      Rent
+                    </button>
+                  </div>
+
+                </div>
+              </div>
+            ))}
+
           </div>
         )}
-
       </div>
     </div>
   );
 };
 
-export default AllItems
+export default AllItems;
