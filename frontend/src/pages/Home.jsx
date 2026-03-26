@@ -1,18 +1,5 @@
 import React, { useState } from "react";
-import {
-  Search,
-  Menu,
-  ShoppingBag,
-  PlusCircle,
-  Star,
-  MapPin,
-  ShieldCheck,
-  Zap,
-  RefreshCcw,
-  ChevronRight,
-  X,
-  Heart,
-} from "lucide-react";
+import {Search,Menu,ShoppingBag,PlusCircle,Star,MapPin,ShieldCheck,Zap,RefreshCcw,ChevronRight,X,Heart,} from "lucide-react";
 import { assets } from "../assets/assets";
 import { useNavigate } from "react-router-dom";
 import EarnBanner from "../components/EarnBanner";
@@ -136,7 +123,7 @@ const Hero = ({ searchQuery, setSearchQuery, onSearchClick }) => {
                 </div>
               ) : (
                 <div className="flex flex-col sm:flex-row gap-4 relative z-20">
-                  <button className="bg-slate-800 text-white px-8 py-4 rounded-2xl font-bold hover:bg-slate-900 transition-all shadow-lg shadow-slate-200/50 flex items-center justify-center gap-2 transform hover:-translate-y-0.5">
+                  <button className="bg-slate-800 text-white px-8 py-4 rounded-2xl font-bold hover:bg-slate-900 transition-all shadow-lg shadow-slate-200/50 flex items-center justify-center gap-2 transform hover:-translate-y-0.5" onClick={()=> Navigate('/owner/add-items')}>
                     <PlusCircle className="w-5 h-5" /> Start Earning Now
                   </button>
                   <button
