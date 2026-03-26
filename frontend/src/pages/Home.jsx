@@ -20,6 +20,7 @@ import ItemDetails from "./ItemDetails";
 import Chat from "./Chat";
 import axios from "axios";
 import { useAppContext } from "../context/AppContext";
+import { useRef } from "react";
 
 // --- MOCK DATA ---
 const CATEGORIES = [
@@ -33,7 +34,7 @@ const CATEGORIES = [
   "Tools",
 ];
 
-const Hero = () => {
+const Hero = ({ searchQuery, setSearchQuery, onSearchClick }) => {
   const Navigate = useNavigate();
   const [mode, setMode] = useState("rent");
 
@@ -123,11 +124,13 @@ const Hero = () => {
                     <Search className="w-5 h-5 text-gray-400" />
                     <input
                       type="text"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
                       placeholder="What are you looking for?"
                       className="w-full bg-transparent border-none focus:ring-0 px-3 py-3.5 text-gray-700 outline-none placeholder-gray-400"
                     />
                   </div>
-                  <button className="bg-teal-600 text-white px-8 py-3.5 rounded-xl font-bold hover:bg-teal-700 transition-colors shadow-lg shadow-teal-200/50 w-full sm:w-auto">
+                  <button className="bg-teal-600 text-white px-8 py-3.5 rounded-xl font-bold hover:bg-teal-700 transition-colors shadow-lg shadow-teal-200/50 w-full sm:w-auto" onClick={onSearchClick}>
                     Search
                   </button>
                 </div>
@@ -291,9 +294,7 @@ const ItemCard = ({ item, onClick }) => (
       <div className="flex items-center gap-1 text-sm text-amber-500 font-medium mb-3">
         <Star className="w-4 h-4 fill-current" />
         <span>{item.model}</span>
-        <span className="text-gray-400 font-normal">
-          ({item.category})
-        </span>
+        <span className="text-gray-400 font-normal">({item.category})</span>
       </div>
 
       <div className="flex items-center gap-1 text-sm text-gray-500 mb-4">
@@ -380,41 +381,56 @@ const HowItWorks = () => {
   );
 };
 
-export default function App() {
-  const { items ,fetchItems} = useAppContext();
+export default function Home({ searchQuery, setSearchQuery, featuredRef }) {
+  const { items, fetchItems } = useAppContext();
 
   const [activeCategory, setActiveCategory] = useState("All Items");
   const [selectedItem, setSelectedItem] = useState(null);
   const [chatOwner, setChatOwner] = useState(null);
   const Navigate = useNavigate();
-  const filteredItems =
-    activeCategory === "All Items"
-      ? items
-      : items.filter((item) => item.category === activeCategory);
+  const handleSearchScroll = () => {
+  featuredRef.current?.scrollIntoView({ behavior: "smooth" });
+};
+  const filteredItems = items.filter((item) => {
+    const matchesCategory =
+      activeCategory === "All Items" || item.category === activeCategory;
+
+    const matchesSearch =
+      item.itemName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.brand?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.model?.toLowerCase().includes(searchQuery.toLowerCase());
+
+    return matchesCategory && matchesSearch;
+  });
 
   return (
     <div className="min-h-screen bg-white font-sans text-gray-900 selection:bg-teal-100 selection:text-teal-900">
       <main>
         {chatOwner ? (
-          /* Render the Chat View */
           <Chat
             item={selectedItem}
             owner={chatOwner}
             onBack={() => setChatOwner(null)}
           />
         ) : selectedItem ? (
-          /* Render the Item Details view if an item is selected */
           <ItemDetails
             item={selectedItem}
             onBack={() => setSelectedItem(null)}
             onChat={() => setChatOwner(selectedItem.owner)}
           />
         ) : (
-          /* Render the Main Marketplace view if no item is selected */
           <>
-            <Hero />
-            {/* Marketplace Section */}
-            <section className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <Hero
+              searchQuery={searchQuery}
+              setSearchQuery={setSearchQuery}
+              onSearchClick={() => {
+                featuredRef.current?.scrollIntoView({ behavior: "smooth" });
+              }}
+            />
+            <section
+              ref={featuredRef}
+              className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+            >
               <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
                 <div>
                   <h2 className="text-3xl font-bold text-gray-900 mb-2">
@@ -463,18 +479,24 @@ export default function App() {
                 </div>
               ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {filteredItems.map((item) => (
+                  {filteredItems.slice(0, 6).map((item) => (
                     <ItemCard
                       key={item._id}
                       item={item}
-                      onClick={setSelectedItem}
+                      onClick={() => {
+                        setSelectedItem(item);
+                        window.scrollTo(0, 0);
+                      }}
                     />
                   ))}
                 </div>
               )}
 
               <div className="mt-12 text-center">
-                <button className="bg-white border-2 border-gray-200 text-gray-800 px-8 py-3 rounded-xl font-bold hover:border-gray-300 hover:bg-gray-50 transition-colors">
+                <button
+                  className="bg-white border-2 border-gray-200 text-gray-800 px-8 py-3 rounded-xl font-bold hover:border-gray-300 hover:bg-gray-50 transition-colors"
+                  onClick={() => Navigate("/all-items")}
+                >
                   Load More Items
                 </button>
               </div>
