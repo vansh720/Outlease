@@ -1,5 +1,18 @@
 import React, { useState } from "react";
-import {Search,Menu,ShoppingBag,PlusCircle,Star,MapPin,ShieldCheck,Zap,RefreshCcw,ChevronRight,X,Heart,} from "lucide-react";
+import {
+  Search,
+  Menu,
+  ShoppingBag,
+  PlusCircle,
+  Star,
+  MapPin,
+  ShieldCheck,
+  Zap,
+  RefreshCcw,
+  ChevronRight,
+  X,
+  Heart,
+} from "lucide-react";
 import { assets } from "../assets/assets";
 import { useNavigate } from "react-router-dom";
 import EarnBanner from "../components/EarnBanner";
@@ -9,7 +22,6 @@ import axios from "axios";
 import { useAppContext } from "../context/AppContext";
 import { useRef } from "react";
 
-// --- MOCK DATA ---
 const CATEGORIES = [
   "All Items",
   "Appliances",
@@ -21,9 +33,11 @@ const CATEGORIES = [
   "Tools",
 ];
 
-const Hero = ({ searchQuery, setSearchQuery, onSearchClick }) => {
+const Hero = ({ searchQuery, setSearchQuery, onSearchClick,setSelectedItem }) => {
   const Navigate = useNavigate();
   const [mode, setMode] = useState("rent");
+  const { items } = useAppContext();
+ const heroItems = items.slice(0, 3);
 
   return (
     <div className="relative bg-white overflow-hidden pt-16 pb-24 lg:pt-24 lg:pb-32 border-b border-gray-100">
@@ -117,13 +131,19 @@ const Hero = ({ searchQuery, setSearchQuery, onSearchClick }) => {
                       className="w-full bg-transparent border-none focus:ring-0 px-3 py-3.5 text-gray-700 outline-none placeholder-gray-400"
                     />
                   </div>
-                  <button className="bg-teal-600 text-white px-8 py-3.5 rounded-xl font-bold hover:bg-teal-700 transition-colors shadow-lg shadow-teal-200/50 w-full sm:w-auto" onClick={onSearchClick}>
+                  <button
+                    className="bg-teal-600 text-white px-8 py-3.5 rounded-xl font-bold hover:bg-teal-700 transition-colors shadow-lg shadow-teal-200/50 w-full sm:w-auto"
+                    onClick={onSearchClick}
+                  >
                     Search
                   </button>
                 </div>
               ) : (
                 <div className="flex flex-col sm:flex-row gap-4 relative z-20">
-                  <button className="bg-slate-800 text-white px-8 py-4 rounded-2xl font-bold hover:bg-slate-900 transition-all shadow-lg shadow-slate-200/50 flex items-center justify-center gap-2 transform hover:-translate-y-0.5" onClick={()=> Navigate('/owner/add-items')}>
+                  <button
+                    className="bg-slate-800 text-white px-8 py-4 rounded-2xl font-bold hover:bg-slate-900 transition-all shadow-lg shadow-slate-200/50 flex items-center justify-center gap-2 transform hover:-translate-y-0.5"
+                    onClick={() => Navigate("/owner/add-items")}
+                  >
                     <PlusCircle className="w-5 h-5" /> Start Earning Now
                   </button>
                   <button
@@ -160,8 +180,7 @@ const Hero = ({ searchQuery, setSearchQuery, onSearchClick }) => {
               {/* Card 1 - Back */}
               <div className="absolute top-10 right-24 w-64 bg-white p-4 rounded-2xl shadow-xl border border-gray-100 transform transition-all duration-700 ease-out group-hover:-translate-y-12 group-hover:translate-x-12 group-hover:rotate-6 z-10 opacity-80 group-hover:opacity-100">
                 <img
-                  src="https://images.unsplash.com/photo-1505843490538-5133c6c7d0e1?auto=format&fit=crop&q=80&w=400"
-                  alt="Chair"
+                  src={heroItems[0]?.image}
                   className="w-full h-32 object-cover rounded-xl mb-3"
                 />
                 <div className="flex justify-between items-center mb-2">
@@ -174,8 +193,7 @@ const Hero = ({ searchQuery, setSearchQuery, onSearchClick }) => {
               {/* Card 2 - Middle */}
               <div className="absolute top-20 right-12 w-72 bg-white p-4 rounded-2xl shadow-2xl border border-gray-100 transform transition-all duration-700 ease-out group-hover:-translate-x-16 group-hover:-translate-y-4 group-hover:-rotate-3 z-20 opacity-95 group-hover:opacity-100">
                 <img
-                  src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&q=80&w=400"
-                  alt="Camera"
+                  src={heroItems[2]?.image}
                   className="w-full h-40 object-cover rounded-xl mb-3"
                 />
                 <div className="flex justify-between items-center mb-2">
@@ -191,22 +209,24 @@ const Hero = ({ searchQuery, setSearchQuery, onSearchClick }) => {
                   <Star className="w-3 h-3 fill-current" /> Popular
                 </div>
                 <img
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_Th8JRCbSiO10pJUT5hevz0_0-GhIihCK2w&s"
-                  alt="Fridge"
+                  src={heroItems[1]?.image}
                   className="w-full h-48 object-cover rounded-2xl mb-4 shadow-inner"
                 />
 
                 <div className="flex justify-between items-start mb-2">
                   <div>
                     <h3 className="text-lg font-bold text-gray-900 leading-tight">
-                      Whirlpool 265L Fridge
+                      {heroItems[1]?.itemName}
                     </h3>
+
                     <p className="text-gray-500 text-xs mt-1.5 flex items-center gap-1">
-                      <MapPin className="w-3 h-3" /> 2km away
+                      <MapPin className="w-3 h-3" />
+                      {heroItems[1]?.locationName}
                     </p>
                   </div>
+
                   <div className="bg-teal-50 text-teal-700 px-3 py-1 rounded-lg text-sm font-bold border border-teal-100">
-                    ₹850
+                    ₹{heroItems[1]?.pricePerMonth}
                     <span className="text-xs font-normal text-teal-500">
                       /mo
                     </span>
@@ -215,7 +235,7 @@ const Hero = ({ searchQuery, setSearchQuery, onSearchClick }) => {
 
                 {/* Dynamically changing CTA based on mode */}
                 {mode === "rent" ? (
-                  <button className="w-full mt-4 bg-gray-900 text-white py-3 rounded-xl text-sm font-semibold hover:bg-gray-800 transition-colors shadow-md">
+                  <button className="w-full mt-4 bg-gray-900 text-white py-3 rounded-xl text-sm font-semibold hover:bg-gray-800 transition-colors shadow-md" onClick={() => setSelectedItem(heroItems[1])} >
                     Request to Rent
                   </button>
                 ) : (
@@ -294,7 +314,6 @@ const ItemCard = ({ item, onClick }) => (
           <span className="text-xl font-extrabold text-teal-600">
             ₹{item.pricePerMonth}
           </span>
-          {/* <span className="text-gray-500 text-sm"> / {item.period}</span> */}
         </div>
         <button
           onClick={(e) => {
@@ -376,8 +395,8 @@ export default function Home({ searchQuery, setSearchQuery, featuredRef }) {
   const [chatOwner, setChatOwner] = useState(null);
   const Navigate = useNavigate();
   const handleSearchScroll = () => {
-  featuredRef.current?.scrollIntoView({ behavior: "smooth" });
-};
+    featuredRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
   const filteredItems = items.filter((item) => {
     const matchesCategory =
       activeCategory === "All Items" || item.category === activeCategory;
@@ -413,6 +432,7 @@ export default function Home({ searchQuery, setSearchQuery, featuredRef }) {
               onSearchClick={() => {
                 featuredRef.current?.scrollIntoView({ behavior: "smooth" });
               }}
+              setSelectedItem={setSelectedItem}
             />
             <section
               ref={featuredRef}
