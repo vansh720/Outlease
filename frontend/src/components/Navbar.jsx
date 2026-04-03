@@ -67,20 +67,15 @@ const Navbar = ({ searchQuery, setSearchQuery, onSearchClick }) => {
                 placeholder="Search for appliances, cameras, tools..."
                 className="w-full pl-10 pr-4 py-2.5 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-500"
               />
-              <Search className="absolute left-3 top-3 w-5 h-5 text-gray-400"  onClick={onSearchClick}/>
+              <Search
+                className="absolute left-3 top-3 w-5 h-5 text-gray-400"
+                onClick={onSearchClick}
+              />
             </div>
           </div>
 
           {/* Desktop Actions */}
           <div className="hidden md:flex items-center gap-6">
-            <button
-              className="text-gray-600 hover:text-teal-600 font-medium transition-colors"
-              onClick={() => {
-                user ? logout() : setShowLogin(true);
-              }}
-            >
-              {user ? "Logout" : "Login"}
-            </button>
             <button
               className="flex items-center gap-2 bg-teal-50 text-teal-700 px-4 py-2 rounded-full font-semibold hover:bg-teal-100 transition-colors"
               onClick={() => (isOwner ? navigate("/owner") : changeRole())}
@@ -95,21 +90,31 @@ const Navbar = ({ searchQuery, setSearchQuery, onSearchClick }) => {
               <Contact className="w-5 h-5" />
               Support
             </button>
+            {user && (
+              <button
+                className="text-gray-600 hover:text-teal-600 relative"
+                onClick={() => navigate("/my-bookings")}
+              >
+                My Bookings
+              </button>
+            )}
             <button
-              className="text-gray-600 hover:text-teal-600 relative"
-              onClick={() => navigate("/cart")}
+              className="text-gray-600 hover:text-teal-600 font-medium transition-colors"
+              onClick={() => {
+                user ? logout() : setShowLogin(true);
+              }}
             >
-              <ShoppingBag className="w-6 h-6" />
-              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
-                2
-              </span>
+              {user ? "Logout" : "Login"}
             </button>
           </div>
 
           {/* Mobile menu button */}
           <div className="md:hidden flex items-center gap-4">
             <button className="text-gray-600">
-              <ShoppingBag className="w-6 h-6" />
+              <ShoppingBag
+                className="w-6 h-6"
+                onClick={() => navigate("/my-bookings")}
+              />
             </button>
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -139,7 +144,10 @@ const Navbar = ({ searchQuery, setSearchQuery, onSearchClick }) => {
               placeholder="Search for appliances, cameras, tools..."
               className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-500"
             />
-            <Search className="absolute left-3 top-2.5 w-5 h-5 text-gray-400"  onClick={onSearchClick} />
+            <Search
+              className="absolute left-3 top-2.5 w-5 h-5 text-gray-400"
+              onClick={onSearchClick}
+            />
           </div>
           <button
             className="w-full flex items-center justify-center gap-2 bg-teal-600 text-white px-4 py-2 rounded-lg font-semibold"
