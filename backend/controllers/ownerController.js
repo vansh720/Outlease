@@ -107,7 +107,7 @@ export const deleteItem = async(req,res)=>{
 }
 
 //API to get dashboard data
-export const getDashboardData = async()=>{
+export const getDashboardData = async(req,res)=>{
     try {
         const {_id,role}=req.user
         if(role !=='owner'){
@@ -118,10 +118,10 @@ export const getDashboardData = async()=>{
         const bookings=await Booking.find({owner:_id}).populate('item').sort({createdAt:-1})
         
         const pendingBookings=await Booking.find({owner:_id,status:"pending"})
-        const completedBookings=await Booking.find({owner:_id,status:"confirmed"})
+        const completedBookings=await Booking.find({owner:_id,status:"completed"})
 
         //Calculate monthlyRevenue
-        const monthlyRevenue = bookings.slice().filter(booking=>booking.status==='confirmed').reduce((acc,booking)=>acc+booking.price,0)
+        const monthlyRevenue = bookings.slice().filter(booking=>booking.status==='completed').reduce((acc,booking)=>acc+booking.price,0)
 
         const dashboardData = {
             totalItems : items.length,

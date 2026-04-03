@@ -1,17 +1,60 @@
 import React, { useEffect, useState } from 'react'
 import { assets, dummyCarData } from '../../assets/assets'
 import Title from '../../components/owner/Title'
+import { useAppContext } from '../../context/AppContext'
+import toast from 'react-hot-toast'
 
 const ManageItems = () => {
-  const currency = import.meta.env.VITE_CURRENCY
+
+  const {isOwner,axios,currency} =useAppContext()
+
   const [items,setItems]=useState([])
   const fetchOwnerItems=async()=>{
-    setItems(dummyCarData)
+    try {
+      const {data}=await axios.get('/api/owner/items')
+      if(data.success){
+        setItems(data.items)
+      }else{
+        toast.error(data.message)
+      }
+    } catch (error) {
+      toast.error(error.message)
+    }
+  }
+
+  const toggleAvailability=async(itemId)=>{
+    try {
+      const {data}=await axios.post('/api/owner/toggle-item',{itemId})
+      if(data.success){
+        toast.success(data.message)
+        fetchOwnerItems()
+      }else{
+        toast.error(data.message)
+      }
+    } catch (error) {
+      toast.error(error.message)
+    }
+  }
+  
+  const deleteItem=async(itemId)=>{
+    try {
+      const confirm = window.confirm("Are you sure you want to delete this item?")
+      if(!confirm) return null
+      const {data}=await axios.post('/api/owner/delete-item',{itemId})
+      if(data.success){
+        toast.success(data.message)
+        fetchOwnerItems()
+      }else{
+        toast.error(data.message)
+      }
+    } catch (error) {
+      toast.error(error.message)
+    }
   }
 
   useEffect(()=>{
-    fetchOwnerItems()
-  },[])
+    isOwner&& fetchOwnerItems()
+  },[isOwner])
   return (
     <div className='px-4 pt-10 md:px-10 w-full'>
       <Title title="Manage Items" subTitle="View all listed items, update their details, or remove them from the booking platform"/>
@@ -33,19 +76,19 @@ const ManageItems = () => {
                   <img src={item.image} alt="" className='h-12 w-12 aspect-square rounded-md object-cover'/>
                   <div className='max-md:hidden'>
                     <p className='font-medium'>{item.brand}{item.model}</p>
-                    <p className='text-xs text-gray-500'>{item.seating_capacity} | {item.transmission}</p>
+                    <p className='text-xs text-gray-500'>{item.year}</p>
                   </div>
                 </td>
                 <td className='p-3 max-md:hidden'>{item.category}</td>
-                <td className='p-3'>{currency}{item.pricePerDay}/day</td>
+                <td className='p-3'>{currency}{item.pricePerMonth}/day</td>
                 <td className='p-3 max:md-hidden'>
                   <span className={`px-3 py-1 rounded-full text-xs ${item.isAvailable ? 'bg-green-100 text-green-500' : 'bg-red-100 text-red-500'}`}>
                     {item.isAvailable ? "Available" : "Unavailable"}
                   </span>
                 </td>
                 <td className='flex items-center p-3'>
-                  <img src={item.isAvailable ? assets.eye_close_icon : assets.eye_icon} alt="" className='cursor-pointer'/>
-                  <img src={assets.delete_icon} alt="" className='cursor-pointer'/>
+                  <img onClick={()=>toggleAvailability(item._id)} src={item.isAvailable ? assets.eye_close_icon : assets.eye_icon} alt="" className='cursor-pointer' />
+                  <img onClick={()=>deleteItem(item._id)} src={assets.delete_icon} alt="" className='cursor-pointer'/>
                 </td>
               </tr>
             ))}

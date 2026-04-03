@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { assets, dummyDashboardData } from '../../assets/assets'
 import Title from '../../components/owner/Title'
+import { useAppContext } from '../../context/AppContext'
 
 const Dashboard = () => {
 
-  const currency = import.meta.env.VITE_CURRENCY
+  const{axios,isOwner,currency,toast}=useAppContext()
 
   const [data,setData]=useState({
     totalItems:0,
@@ -19,12 +20,27 @@ const Dashboard = () => {
     {title:"Total Cards" ,value: data.totalItems, icon: assets.carIconColored},
     {title:"Total Bookings" ,value: data.totalBookings, icon: assets.listIconColored},
     {title:"Pending" ,value: data.pendingBookings, icon: assets.cautionIconColored},
-    {title:"Confirmed" ,value: data.completedBookings, icon: assets.listIconColored}
+    {title:"Completed" ,value: data.completedBookings, icon: assets.listIconColored}
   ]
 
+  const fetchDashboardData = async()=>{
+    try {
+      const {data} =await axios.get('/api/owner/dashboard')
+      if(data.success){
+        setData(data.dashboardData)
+      }else{
+        toast.error(data.message)
+      }
+    } catch (error) {
+      toast.error(error.message)
+    }
+  }
+
   useEffect(()=>{
-    setData(dummyDashboardData)
-  },[])
+    if(isOwner){
+      fetchDashboardData()
+    }
+  },[isOwner])
 
   return (
     <div className='px-4 pt-10 md:px-10 flex-1'>
@@ -55,7 +71,7 @@ const Dashboard = () => {
                   <img src={assets.listIconColored} alt="" className='h-5 w-5'/>
                 </div>
               <div>
-                <p>{booking.car.brand} {booking.car.model}</p>
+                <p>{booking.item.brand} {booking.item.model}</p>
                 <p className='text-sm text-gray-500'>{booking.createdAt.split('T')[0]}</p>
               </div>
               </div>
