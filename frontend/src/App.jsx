@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef,useEffect} from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -22,15 +22,23 @@ import MyBookings from "./pages/Mybookings";
 import PaymentSuccess from "./pages/PaymentSuccess";
 import AllItems from "./pages/AllItems";
 import ScrollToTop from "./components/ScrollToTop";
+import Messages from "./pages/Messages";
+import { socket } from "./services/Socket";
 
 const App = () => {
-  const { showLogin, showRegister } = useAppContext();
+  const { showLogin, showRegister ,user } = useAppContext();
   const isOwnerPath = useLocation().pathname.startsWith("/owner");
   const [searchQuery, setSearchQuery] = useState("");
   const featuredRef = useRef(null);
   const handleSearchScroll = () => {
     featuredRef.current?.scrollIntoView({ behavior: "smooth" });
   };
+
+  useEffect(() => {
+  if (user?._id) {
+    socket.emit("join", user._id);
+  }
+}, [user]);
   return (
     <>
       <Toaster />
@@ -59,12 +67,13 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/item/:id" element={<ItemDetails />} />
-        <Route path="/chat/:id" element={<Chat />} />
+        <Route path="/chat/:userId/:otherUserId" element={<Chat />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="support" element={<Support />} />
         <Route path="/all-items" element={<AllItems />} />
         <Route path="/my-bookings" element={<MyBookings />} />
         <Route path="/payment-success" element={<PaymentSuccess />} />
+        <Route path="/messages" element={<Messages />} />
 
         <Route path="map" element={<RentalMap />} />
         <Route path="/owner" element={<Layout />}>
