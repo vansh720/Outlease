@@ -33,11 +33,16 @@ const CATEGORIES = [
   "Tools",
 ];
 
-const Hero = ({ searchQuery, setSearchQuery, onSearchClick,setSelectedItem }) => {
+const Hero = ({
+  searchQuery,
+  setSearchQuery,
+  onSearchClick,
+  setSelectedItem,
+}) => {
   const Navigate = useNavigate();
   const [mode, setMode] = useState("rent");
   const { items } = useAppContext();
- const heroItems = items.slice(0, 3);
+  const heroItems = items.slice(0, 3);
 
   return (
     <div className="relative bg-white overflow-hidden pt-16 pb-24 lg:pt-24 lg:pb-32 border-b border-gray-100">
@@ -235,7 +240,10 @@ const Hero = ({ searchQuery, setSearchQuery, onSearchClick,setSelectedItem }) =>
 
                 {/* Dynamically changing CTA based on mode */}
                 {mode === "rent" ? (
-                  <button className="w-full mt-4 bg-gray-900 text-white py-3 rounded-xl text-sm font-semibold hover:bg-gray-800 transition-colors shadow-md" onClick={() => setSelectedItem(heroItems[1])} >
+                  <button
+                    className="w-full mt-4 bg-gray-900 text-white py-3 rounded-xl text-sm font-semibold hover:bg-gray-800 transition-colors shadow-md"
+                    onClick={() => setSelectedItem(heroItems[1])}
+                  >
                     Request to Rent
                   </button>
                 ) : (
@@ -422,7 +430,10 @@ export default function Home({ searchQuery, setSearchQuery, featuredRef }) {
           <ItemDetails
             item={selectedItem}
             onBack={() => setSelectedItem(null)}
-            onChat={() => setChatOwner(selectedItem.owner)}
+            onChat={(item) => {
+              setSelectedItem(item); // ✅ pass item
+              setChatOwner(item.owner); // ✅ pass owner
+            }}
           />
         ) : (
           <>

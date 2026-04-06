@@ -98,6 +98,11 @@ const Navbar = ({ searchQuery, setSearchQuery, onSearchClick }) => {
                 My Bookings
               </button>
             )}
+            {user && isOwner && (
+  <button onClick={() => navigate("/messages")}>
+    Messages
+  </button>
+)}
             <button
               className="text-gray-600 hover:text-teal-600 font-medium transition-colors"
               onClick={() => {
