@@ -74,8 +74,8 @@ const App = () => {
         <Route path="/my-bookings" element={<MyBookings />} />
         <Route path="/payment-success" element={<PaymentSuccess />} />
         <Route path="/messages" element={<Messages />} />
-
         <Route path="map" element={<RentalMap />} />
+        
         <Route path="/owner" element={<Layout />}>
           <Route index element={<Dashboard />} />
           <Route path="add-items" element={<AddItem />} />

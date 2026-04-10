@@ -10,6 +10,7 @@ import itemRoutes from './routes/itemRoutes.js';
 import bookingRouter from './routes/bookingRoutes.js';
 import Message from './models/Messages.js';
 import messageRoutes from './routes/messageRoutes.js'
+import routeRouter from "./routes/route.js";
 
 const app=express()
 //Connect database
@@ -87,6 +88,7 @@ app.use('/api/user',userRouter)
 app.use('/api/owner',ownerRouter)
 app.use('/api/nitems', itemRoutes);
 app.use('/api/booking',bookingRouter)
+app.use("/api/route", routeRouter);
 
 const PORT = process.env.PORT || 3000
 server.listen(PORT,()=>console.log(`Server running on port ${PORT}`))
