@@ -1,5 +1,7 @@
 import Items from "../models/AddItem.js";
 import Booking from "../models/Booking.js"
+import transporter from "../configs/mailer.js";
+import User from "../models/User.js";
 
 //Function to check the availability of a item for a given date 
 const checkAvailability = async(item,pickupDate,returnDate)=>{
@@ -46,13 +48,13 @@ export const createBooking = async(req,res)=>{
         }
 
         const itemData = await Items.findById(item)
+        const userData = await User.findById(_id);
 
         // Calculate days
         const picked=new Date(pickupDate)
         const returned=new Date(returnDate)
         const noOfDays = Math.ceil((returned-picked)/(1000*60*60*24))
 
-        // 🔥 Fix pricing (monthly → daily)
         const pricePerDay = itemData.pricePerMonth / 30
         const price = Math.round(pricePerDay * noOfDays)
 
@@ -67,7 +69,29 @@ export const createBooking = async(req,res)=>{
             price
         })
 
-        res.json({success:true,message:"Booking Created"})
+    await transporter.sendMail({
+      from: `"Outlease" <${process.env.EMAIL_USER}>`,
+      to: userData.email,
+      subject: "Booking Confirmation 🎉",
+      html: `
+        <h2>Booking Confirmed ✅</h2>
+        <p>Hello ${userData.name},</p>
+        <p>Your booking has been successfully confirmed.</p>
+
+        <h3>Details:</h3>
+        <ul>
+          <li><b>Item:</b> ${itemData.itemName}</li>
+          <li><b>Pickup Date:</b> ${pickupDate}</li>
+          <li><b>Return Date:</b> ${returnDate}</li>
+          <li><b>Location:</b> ${pickupLocation}</li>
+          <li><b>Total Price:</b> ₹${itemData.pricePerMonth}</li>
+        </ul>
+
+        <p>Thank you for using Outlease 🚀</p>
+      `,
+    });
+
+        res.json({success:true,message:"Booking Created and Confirmation email sent"})
 
     } catch (error) {
         console.log(error.message)

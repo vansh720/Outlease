@@ -78,7 +78,7 @@ export const getConversations = async (req, res) => {
           user: { name: "$user.name", _id: "$user._id" },
           lastMessage: 1,
           createdAt: 1,
-          item: 1, // optional if you need
+          item: 1, 
         },
       },
     ]);

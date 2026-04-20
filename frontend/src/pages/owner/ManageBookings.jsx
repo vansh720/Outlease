@@ -65,7 +65,7 @@ const ManageBookings = () => {
                 </td>
 
                 <td className='p-3 max-md:hidden'>
-                    <span className='bg-gray-100 px-3 py-1 rounded-full text-xs'>offline</span>
+                    <span className='bg-gray-100 px-3 py-1 rounded-full text-xs'>online</span>
                 </td>
 
                 <td className='p-3'>
