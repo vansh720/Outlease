@@ -107,37 +107,48 @@ export const deleteItem = async(req,res)=>{
 }
 
 //API to get dashboard data
-export const getDashboardData = async(req,res)=>{
-    try {
-        const {_id,role}=req.user
-        if(role !=='owner'){
-            return res.json({success:false,message:"Unauthorized"})
-        }
+export const getDashboardData = async (req, res) => {
+  try {
+    const { _id, role } = req.user;
 
-        const items=await Items.find({owner:_id})
-        const bookings=await Booking.find({owner:_id}).populate('item').sort({createdAt:-1})
-        
-        const pendingBookings=await Booking.find({owner:_id,status:"pending"})
-        const completedBookings=await Booking.find({owner:_id,status:"completed"})
-
-        //Calculate monthlyRevenue
-        const monthlyRevenue = bookings.slice().filter(booking=>booking.status==='completed').reduce((acc,booking)=>acc+booking.price,0)
-
-        const dashboardData = {
-            totalItems : items.length,
-            totalBookings: bookings.length,
-            pendingBookings:pendingBookings.length,
-            completedBookings:completedBookings.length,
-            recentBookings:bookings.slice(0,3),
-            monthlyRevenue
-        }
-
-        res.json({success:true,dashboardData})
-    } catch (error) {
-        console.log(error.message)
-        res.json({success:false,message:error.message})
+    if (role !== "owner") {
+      return res.json({ success: false, message: "Unauthorized" });
     }
-}
+
+    console.log("Dashboard for owner:", _id);
+
+    const [items, bookings] = await Promise.all([
+      Items.find({ owner: _id }),
+      Booking.find({ owner: _id })
+        .populate("item")
+        .sort({ createdAt: -1 }),
+    ]);
+
+    console.log("Total bookings found:", bookings.length);
+
+    const pendingBookings = bookings.filter(b => b.status === "pending");
+    const completedBookings = bookings.filter(b => b.status === "completed");
+
+    const monthlyRevenue = bookings
+      .filter(b => b.status === "completed")
+      .reduce((acc, b) => acc + b.price, 0);
+
+    const dashboardData = {
+      totalItems: items.length,
+      totalBookings: bookings.length,
+      pendingBookings: pendingBookings.length,
+      completedBookings: completedBookings.length,
+      recentBookings: bookings.slice(0, 3),
+      monthlyRevenue,
+    };
+
+    res.json({ success: true, dashboardData });
+
+  } catch (error) {
+    console.log(error.message);
+    res.json({ success: false, message: error.message });
+  }
+};
 
 //API to update user Image
 export const updateUserImage = async(req,res)=>{
