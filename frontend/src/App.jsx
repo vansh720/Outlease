@@ -7,7 +7,6 @@ import Dashboard from "./pages/owner/Dashboard";
 import AddItem from "./pages/owner/AddItem";
 import ItemDetails from "./pages/ItemDetails";
 import Chat from "./pages/Chat";
-import Profile from "./pages/Profile";
 import Support from "./pages/Support";
 import Navbar from "./components/Navbar";
 import Layout from "./pages/owner/Layout";
@@ -68,13 +67,13 @@ const App = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/item/:id" element={<ItemDetails />} />
         <Route path="/chat/:userId/:otherUserId" element={<Chat />} />
-        <Route path="/profile" element={<Profile />} />
         <Route path="support" element={<Support />} />
         <Route path="/all-items" element={<AllItems />} />
         <Route path="/my-bookings" element={<MyBookings />} />
         <Route path="/payment-success" element={<PaymentSuccess />} />
         <Route path="/messages" element={<Messages />} />
         <Route path="map" element={<RentalMap />} />
+
         
         <Route path="/owner" element={<Layout />}>
           <Route index element={<Dashboard />} />

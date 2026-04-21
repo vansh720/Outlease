@@ -1,60 +1,107 @@
-import React from 'react'
-import { assets } from '../assets/assets'
+import React from "react";
+import { Link } from "react-router-dom";
 
-const Footer = () => (
-  <footer className="bg-slate-950 text-gray-400 py-12 border-t border-slate-900">
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-        <div className="col-span-1 md:col-span-1">
-          <div className="flex items-center gap-2 mb-4">
-             <h4>OUTLEASE</h4>
+const Footer = () => {
+  return (
+    <footer className="bg-slate-950 text-gray-400 py-12 border-t border-slate-900">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        {/* GRID */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 mb-8">
+
+          {/* BRAND */}
+          <div>
+            <h2 className="text-lg font-bold text-white mb-4">OUTLEASE</h2>
+            <p className="text-sm text-slate-500">
+              Rent smarter. Discover items around you, list what you own, and connect instantly.
+            </p>
           </div>
-          <p className="text-sm text-slate-500">
-            The smartest way to consume. Borrow what you need, lend what you don't, and build a more sustainable community.
-          </p>
-        </div>
-        
-        <div>
-          <h4 className="text-slate-200 font-bold mb-4">Categories</h4>
-          <ul className="space-y-2 text-sm">
-            <li><a href="#" className="hover:text-teal-400 transition-colors">Home Appliances</a></li>
-            <li><a href="#" className="hover:text-teal-400 transition-colors">Furniture</a></li>
-            <li><a href="#" className="hover:text-teal-400 transition-colors">Electronics & IT</a></li>
-            <li><a href="#" className="hover:text-teal-400 transition-colors">Photography</a></li>
-            <li><a href="#" className="hover:text-teal-400 transition-colors">Power Tools</a></li>
-          </ul>
-        </div>
-        
-        <div>
-          <h4 className="text-slate-200 font-bold mb-4">Support</h4>
-          <ul className="space-y-2 text-sm">
-            <li><a href="#" className="hover:text-teal-400 transition-colors">Help Center</a></li>
-            <li><a href="#" className="hover:text-teal-400 transition-colors">Trust & Safety</a></li>
-            <li><a href="#" className="hover:text-teal-400 transition-colors">Rental Agreement</a></li>
-            <li><a href="#" className="hover:text-teal-400 transition-colors">Damage Protection</a></li>
-          </ul>
-        </div>
-        
-        <div>
-          <h4 className="text-slate-200 font-bold mb-4">Company</h4>
-          <ul className="space-y-2 text-sm">
-            <li><a href="#" className="hover:text-teal-400 transition-colors">About Us</a></li>
-            <li><a href="#" className="hover:text-teal-400 transition-colors">Careers</a></li>
-            <li><a href="#" className="hover:text-teal-400 transition-colors">Blog</a></li>
-            <li><a href="#" className="hover:text-teal-400 transition-colors">Contact</a></li>
-          </ul>
-        </div>
-      </div>
-      
-      <div className="pt-8 border-t border-slate-800 text-sm text-center md:flex md:justify-between md:text-left">
-        <p>© 2026 Outlease Marketplace. All rights reserved.</p>
-        <div className="mt-4 md:mt-0 space-x-4">
-          <a href="#" className="hover:text-slate-300 transition-colors">Privacy Policy</a>
-          <a href="#" className="hover:text-slate-300 transition-colors">Terms of Service</a>
-        </div>
-      </div>
-    </div>
-  </footer>
-);
 
-export default Footer
+          {/* EXPLORE */}
+          <div>
+            <h4 className="text-white font-semibold mb-4">Explore</h4>
+            <ul className="space-y-2 text-sm">
+              <li>
+                <Link to="/all-items" className="hover:text-teal-400 transition">
+                  Browse Items
+                </Link>
+              </li>
+              <li>
+                <Link to="/map" className="hover:text-teal-400 transition">
+                  Explore Map
+                </Link>
+              </li>
+              <li>
+                <Link to="/all-items?sort=latest" className="hover:text-teal-400 transition">
+                  New Listings
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* ACCOUNT */}
+          <div>
+            <h4 className="text-white font-semibold mb-4">Account</h4>
+            <ul className="space-y-2 text-sm">
+              <li>
+                <Link to="/owner/" className="hover:text-teal-400 transition">
+                  My Profile
+                </Link>
+              </li>
+              <li>
+                <Link to="/my-bookings" className="hover:text-teal-400 transition">
+                  My Bookings
+                </Link>
+              </li>
+              <li>
+                <Link to="/messages" className="hover:text-teal-400 transition">
+                  Messages
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* OWNER */}
+          <div>
+            <h4 className="text-white font-semibold mb-4">Owner</h4>
+            <ul className="space-y-2 text-sm">
+              <li>
+                <Link to="/owner/add-items" className="hover:text-teal-400 transition">
+                  List an Item
+                </Link>
+              </li>
+              <li>
+                <Link to="/owner/manage-items" className="hover:text-teal-400 transition">
+                  Manage Items
+                </Link>
+              </li>
+              <li>
+                <Link to="/owner/manage-bookings" className="hover:text-teal-400 transition">
+                  Manage Bookings
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+
+        {/* BOTTOM */}
+        <div className="pt-6 border-t border-slate-800 text-sm flex flex-col md:flex-row justify-between items-center gap-4">
+          <p>© {new Date().getFullYear()} Outlease Marketplace. All rights reserved.</p>
+
+          <div className="flex gap-6">
+            <Link to="/support" className="hover:text-white transition">
+              Support
+            </Link>
+            <Link to="/profile" className="hover:text-white transition">
+              Profile
+            </Link>
+          </div>
+        </div>
+
+      </div>
+    </footer>
+  );
+};
+
+export default Footer;
