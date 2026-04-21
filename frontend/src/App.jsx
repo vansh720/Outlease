@@ -11,7 +11,6 @@ import Support from "./pages/Support";
 import Navbar from "./components/Navbar";
 import Layout from "./pages/owner/Layout";
 import ManageItems from "./pages/owner/ManageItems";
-import Cart from "./pages/Cart";
 import Footer from "./components/Footer";
 import RentalMap from "./components/RentalMap";
 import { Toaster } from "react-hot-toast";
@@ -62,7 +61,6 @@ const App = () => {
             />
           }
         />
-        <Route path="/cart" element={<Cart />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/item/:id" element={<ItemDetails />} />
