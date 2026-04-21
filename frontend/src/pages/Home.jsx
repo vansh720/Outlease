@@ -24,12 +24,12 @@ import { useRef } from "react";
 
 const CATEGORIES = [
   "All Items",
-  "Appliances",
+  "Cooking appliances",
   "Furniture",
   "Electronics",
   "Photography",
   "Camping",
-  "Party Supplies",
+  "Vehicle",
   "Tools",
 ];
 
@@ -252,7 +252,7 @@ const Hero = ({
                       <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
                       <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500"></span>
                     </span>
-                    Currently Earning ₹850/mo
+                    Currently Earning ₹{heroItems[1]?.pricePerMonth}/mo
                   </div>
                 )}
               </div>
@@ -431,8 +431,8 @@ export default function Home({ searchQuery, setSearchQuery, featuredRef }) {
             item={selectedItem}
             onBack={() => setSelectedItem(null)}
             onChat={(item) => {
-              setSelectedItem(item); // ✅ pass item
-              setChatOwner(item.owner); // ✅ pass owner
+              setSelectedItem(item);
+              setChatOwner(item.owner); 
             }}
           />
         ) : (

@@ -7,25 +7,26 @@ router.get('/nearby', async (req, res) => {
   try {
     const { lng, lat } = req.query;
 
-    if (!lng || !lat) {
-      return res.status(400).json({ error: "Location coordinates are required." });
-    }
-
     const nearbyItems = await Item.find({
+      owner: { $ne: null },       
+      isAvailable: true,         
+      isDeleted: { $ne: true },   
+
       location: {
         $near: {
           $geometry: {
             type: "Point",
             coordinates: [parseFloat(lng), parseFloat(lat)]
           },
-          $maxDistance: 10000 // 10 km
+          $maxDistance: 10000
         }
       }
     });
 
     res.json(nearbyItems);
+
   } catch (error) {
-    console.error(error);
+    console.log(error.message);
     res.status(500).json({ error: "Server Error" });
   }
 });
