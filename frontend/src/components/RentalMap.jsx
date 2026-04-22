@@ -50,7 +50,7 @@ const RentalMap = () => {
 
         try {
           const res = await axios.get(
-            `http://localhost:3000/api/nitems/nearby?lng=${lng}&lat=${lat}`
+            `${import.meta.env.VITE_BASE_URL}/api/nitems/nearby?lng=${lng}&lat=${lat}`
           );
 
           console.log("ITEMS:", res.data);
@@ -71,7 +71,7 @@ const RentalMap = () => {
   const getRoute = async (start, end) => {
     try {
       const res = await axios.get(
-        `http://localhost:3000/api/route?startLat=${start[0]}&startLng=${start[1]}&endLat=${end[0]}&endLng=${end[1]}`
+        `${import.meta.env.VITE_BASE_URL}/api/route?startLat=${start[0]}&startLng=${start[1]}&endLat=${end[0]}&endLng=${end[1]}`
       );
 
       if (!res.data.routes || res.data.routes.length === 0) {
