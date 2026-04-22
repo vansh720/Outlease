@@ -162,11 +162,13 @@ const Navbar = ({ searchQuery, setSearchQuery, onSearchClick }) => {
             List an Item
           </button>
           <button
-            className="w-full text-center text-gray-600 font-medium py-2"
-            onClick={() => navigate("/login")}
-          >
-            Log in / Sign up
-          </button>
+              className="w-full text-center text-gray-600 font-medium hover:text-teal-600 transition-colors"
+              onClick={() => {
+                user ? logout() : setShowLogin(true);
+              }}
+            >
+              {user ? "Logout" : "Login"}
+            </button>
         </div>
       )}
     </nav>
