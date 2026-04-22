@@ -7,6 +7,7 @@ import {
   ShoppingBag,
   RefreshCcw,
   Contact,
+  MessageCircle,
 } from "lucide-react";
 import { useState } from "react";
 import { assets } from "../assets/assets";
@@ -115,6 +116,12 @@ const Navbar = ({ searchQuery, setSearchQuery, onSearchClick }) => {
 
           {/* Mobile menu button */}
           <div className="md:hidden flex items-center gap-4">
+            <button className="text-gray-600">
+              <MessageCircle
+                className="w-6 h-6"
+                onClick={() => navigate("/messages")}
+              />
+            </button>
             <button className="text-gray-600">
               <ShoppingBag
                 className="w-6 h-6"
