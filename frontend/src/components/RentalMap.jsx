@@ -52,6 +52,7 @@ const RentalMap = () => {
           const res = await axios.get(
             `${import.meta.env.VITE_BASE_URL}/api/nitems/nearby?lng=${lng}&lat=${lat}`
           );
+          console.log(import.meta.env.VITE_BASE_URL)
 
           console.log("ITEMS:", res.data);
           setItems(res.data);
