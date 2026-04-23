@@ -1,10 +1,20 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import axios from 'axios';
 import { assets } from '../assets/assets';
 
 const Support = () => {
   const canvasRef = useRef(null);
 
-  // Canvas Animation: Floating Teal Orbs
+  // ✅ added state (no UI change)
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: ""
+  });
+
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
+
+  // 🔁 SAME animation (unchanged)
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
@@ -26,7 +36,7 @@ const Support = () => {
 
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = 'rgba(20, 153, 145, 0.03)'; // Brand Teal with ultra-low opacity
+      ctx.fillStyle = 'rgba(20, 153, 145, 0.03)';
 
       particles.forEach((p) => {
         ctx.beginPath();
@@ -49,9 +59,40 @@ const Support = () => {
     return () => cancelAnimationFrame(animationFrameId);
   }, []);
 
+  // ✅ handle change (no UI change)
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  // ✅ handle submit (no UI change)
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const res = await axios.post(
+        `${BASE_URL}/api/support`,
+        formData
+      );
+
+      if (res.data.success) {
+        alert("Message sent successfully ✅");
+        setFormData({ name: "", email: "", message: "" });
+      } else {
+        alert("Failed ❌");
+      }
+
+    } catch (error) {
+      console.log(error.message);
+      alert("Error ❌");
+    }
+  };
+
   return (
     <div className="relative min-h-screen bg-white overflow-hidden font-sans">
-      {/* Interactive Canvas Background */}
+      {/* SAME Canvas */}
       <canvas
         ref={canvasRef}
         className="absolute inset-0 z-0 pointer-events-none"
@@ -96,27 +137,37 @@ const Support = () => {
             <div className="space-y-4">
               <div className="flex items-center gap-4">
                 <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">📧</div>
-                <span className="font-bold">support@outlease.com</span>
+                <span className="font-bold">narulavansh502@gmail.com</span>
               </div>
               <div className="flex items-center gap-4">
                 <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">📍</div>
-                <span className="font-bold">Your Neighborhood, Global</span>
+                <span className="font-bold">Sector 74, Phase 8B, 2nd floor mgtower</span>
               </div>
             </div>
           </div>
 
-          <form className="space-y-4 bg-white p-8 rounded-[2rem]">
+          {/* ONLY THIS FORM CONNECTED */}
+          <form onSubmit={handleSubmit} className="space-y-4 bg-white p-8 rounded-[2rem]">
             <input 
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
               type="text" 
               placeholder="Your Name" 
               className="w-full px-6 py-4 bg-gray-50 text-[#0c2423] rounded-2xl outline-none focus:ring-2 focus:ring-[#149991]"
             />
             <input 
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
               type="email" 
               placeholder="Email Address" 
               className="w-full px-6 py-4 bg-gray-50 text-[#0c2423] rounded-2xl outline-none focus:ring-2 focus:ring-[#149991]"
             />
             <textarea 
+              name="message"
+              value={formData.message}
+              onChange={handleChange}
               placeholder="Tell us what's happening..." 
               rows="4"
               className="w-full px-6 py-4 bg-gray-50 text-[#0c2423] rounded-2xl outline-none focus:ring-2 focus:ring-[#149991]"
@@ -125,6 +176,7 @@ const Support = () => {
               Send Message
             </button>
           </form>
+
         </div>
       </div>
     </div>

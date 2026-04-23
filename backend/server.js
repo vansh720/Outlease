@@ -11,12 +11,11 @@ import bookingRouter from './routes/bookingRoutes.js';
 import Message from './models/Messages.js';
 import messageRoutes from './routes/messageRoutes.js'
 import routeRouter from "./routes/route.js";
+import supportRoutes from "./routes/supportRoutes.js"
 
 const app=express()
-//Connect database
 await connectDB()
 
-//Middleware
 app.use(cors())
 app.use(express.json())
 app.use("/api/messages", messageRoutes);
@@ -42,7 +41,6 @@ io.on("connection", (socket) => {
   try {
     const { sender, receiver, text, item } = data;
 
-    // ✅ Save in DB
     const message = await Message.create({
       sender,
       receiver,
@@ -53,13 +51,10 @@ io.on("connection", (socket) => {
 
     const receiverSocket = onlineUsers.get(receiver.toString());
 
-    // ✅ Send to receiver (real-time)
-    // send to receiver
 if (receiverSocket) {
   io.to(receiverSocket).emit("receiveMessage", message);
 }
 
-// 🔥 ALSO send back to sender
 socket.emit("receiveMessage", message);
 
   } catch (error) {
@@ -67,11 +62,9 @@ socket.emit("receiveMessage", message);
   }
 });
 
-  // 👉 Disconnect
   socket.on("disconnect", () => {
     console.log("User disconnected:", socket.id);
 
-    // remove user from map
     for (let [userId, sockId] of onlineUsers.entries()) {
       if (sockId === socket.id) {
         onlineUsers.delete(userId);
@@ -89,6 +82,7 @@ app.use('/api/owner',ownerRouter)
 app.use('/api/nitems', itemRoutes);
 app.use('/api/booking',bookingRouter)
 app.use("/api/route", routeRouter);
+app.use("/api/support", supportRoutes)
 
 const PORT = process.env.PORT || 3000
 server.listen(PORT,()=>console.log(`Server running on port ${PORT}`))
