@@ -43,6 +43,7 @@ const ManageBookings = () => {
             <tr>
               <th className='p-3 font-medium'>Item</th>
               <th className='p-3 font-medium max-md:hidden'>Date Range</th>
+              <th className='p-3 font-medium'>Customer</th>
               <th className='p-3 font-medium'>Total</th>
               <th className='p-3 font-medium max-md:hidden'>Payment</th>
               <th className='p-3 font-medium'>Actions</th>
@@ -59,6 +60,20 @@ const ManageBookings = () => {
                 <td className='p-3 max-md:hidden'>
                     {booking.pickupDate.split('T')[0]} to {booking.returnDate.split('T')[0]}
                 </td>
+
+                {/* Customer contact details */}
+                  <td className='p-3'>
+                    <div className='flex flex-col gap-0.5'>
+                      <p className='font-medium text-gray-800'>
+                        {booking.customerName || (booking.user && booking.user.name) || '—'}
+                      </p>
+                      { booking.user && (
+                        <a href={`mailto:${booking.user.email}`} className='text-blue-600 hover:underline text-xs'>
+                          {booking.user.email}
+                        </a>
+                      )}
+                    </div>
+                  </td>
 
                 <td className='p-3'>
                     {currency}{booking.price}

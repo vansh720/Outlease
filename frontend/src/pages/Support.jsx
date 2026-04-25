@@ -5,7 +5,6 @@ import { assets } from '../assets/assets';
 const Support = () => {
   const canvasRef = useRef(null);
 
-  // ✅ added state (no UI change)
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -14,7 +13,6 @@ const Support = () => {
 
   const BASE_URL = import.meta.env.VITE_BASE_URL;
 
-  // 🔁 SAME animation (unchanged)
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
@@ -59,7 +57,6 @@ const Support = () => {
     return () => cancelAnimationFrame(animationFrameId);
   }, []);
 
-  // ✅ handle change (no UI change)
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -67,7 +64,6 @@ const Support = () => {
     });
   };
 
-  // ✅ handle submit (no UI change)
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -146,7 +142,7 @@ const Support = () => {
             </div>
           </div>
 
-          {/* ONLY THIS FORM CONNECTED */}
+    
           <form onSubmit={handleSubmit} className="space-y-4 bg-white p-8 rounded-[2rem]">
             <input 
               name="name"
